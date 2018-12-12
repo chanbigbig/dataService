@@ -16,3 +16,4 @@
 
 4、生成代码: php artisan ide-helper:generate
 
+
