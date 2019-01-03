@@ -50,12 +50,12 @@ $app = require_once __DIR__.'/../bootstrap/app.php';
 */
 echo '1111';
 $kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
-echo '222';
+
 $response = $kernel->handle(
     $request = Illuminate\Http\Request::capture()
 );
-
+echo '222';
 $response->send();
-
-$kernel->terminate($request, $response);
 echo '333';
+$kernel->terminate($request, $response);
+echo '4444';
