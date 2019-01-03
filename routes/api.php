@@ -17,4 +17,7 @@
 //    return $request->user();
 //});
 
-Route::get('test', 'IndexController@test');
+Route::get('test', function(){
+//    'IndexController@test'
+    return 'chenjianlinishere123';
+});
