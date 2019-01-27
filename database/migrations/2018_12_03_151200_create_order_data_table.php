@@ -12,7 +12,7 @@ class CreateOrderDataTable extends Migration
      */
     public function up()
     {
-        Schema::create('order_data', function (Blueprint $table)
+        Schema::create('order', function (Blueprint $table)
         {
             $table->increments('id');
             $table->string('order_id')->default('')->comment('编号ID');
@@ -23,8 +23,7 @@ class CreateOrderDataTable extends Migration
             $table->string('remark', 256)->default('')->comment('订单备注');
             $table->unsignedTinyInteger('status')->default(0)->comment('状态');
             $table->unsignedInteger('finish_time')->default(0)->comment('预计完成时间');
-            $table->unsignedInteger('staff_id')->default(0)->comment('执行操作的员工id');
-            $table->unsignedInteger('entity_id')->default(0)->comment('执行操作的单位id');
+            $table->unsignedInteger('user_id')->default(0)->comment('执行操作的员工id');
 
             $table->index('order_id');
             $table->index('contact_handset');
