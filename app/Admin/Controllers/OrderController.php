@@ -8,6 +8,8 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
+use App\Models\Order;
+use Encore\Admin\Facades\Admin;
 
 class OrderController extends Controller
 {
@@ -15,7 +17,6 @@ class OrderController extends Controller
 
     /**
      * Index interface.
-     *
      * @param Content $content
      * @return Content
      */
@@ -30,8 +31,7 @@ class OrderController extends Controller
 
     /**
      * Edit interface.
-     *
-     * @param mixed   $id
+     * @param mixed $id
      * @param Content $content
      * @return Content
      */
@@ -45,7 +45,6 @@ class OrderController extends Controller
 
     /**
      * Create interface.
-     *
      * @param Content $content
      * @return Content
      */
@@ -59,28 +58,27 @@ class OrderController extends Controller
 
     /**
      * Make a grid builder.
-     *
      * @return Grid
      */
     protected function grid()
     {
-        $grid = new Grid(new YourModel);
 
-        $grid->id('序号')->sortable();
-        $grid->order_id('订单编号');
-        $grid->order_date('订单日期');
-        $grid->customer_name('客户昵称');
-        $grid->remark('');
-        $grid->created_at('创建时间');
-        $grid->updated_at('更新时间');
+        return Admin::grid(Order::class, function (Grid $grid)
+        {
+            $grid->id('序号')->sortable();
+            $grid->order_id('订单编号');
+            $grid->order_date('订单日期');
+            $grid->customer_name('客户昵称');
+            $grid->status('状态');
+            $grid->remark('备注')->limit('10');
+            $grid->created_at('创建时间');
+        });
 
-        return $grid;
     }
 
     /**
      * Make a show builder.
-     *
-     * @param mixed   $id
+     * @param mixed $id
      * @return Show
      */
     protected function detail($id)
@@ -96,17 +94,17 @@ class OrderController extends Controller
 
     /**
      * Make a form builder.
-     *
      * @return Form
      */
     protected function form()
     {
-        $form = new Form(new YourModel);
+        return Admin::form(Order::class, function (Form $form)
+        {
 
-        $form->display('id', 'ID');
-        $form->display('created_at', 'Created At');
-        $form->display('updated_at', 'Updated At');
+            $form->display('id', 'ID');
+            $form->display('created_at', 'Created At');
+            $form->display('updated_at', 'Updated At');
 
-        return $form;
+        });
     }
 }
