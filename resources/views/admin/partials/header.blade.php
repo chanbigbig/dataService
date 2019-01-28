@@ -31,7 +31,7 @@
                         <!-- The user image in the navbar-->
                         <img src="http://www.jituwang.com/uploads/allimg/151003/258203-1510030RP894.jpg" class="user-image" alt="User Image">
                         <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                        <span class="hidden-xs">{{ Admin::user()->staff_name }}</span>
+                        <span class="hidden-xs">{{ Admin::user()->name }}</span>
                     </a>
                     <ul class="dropdown-menu">
                         <!-- The user image in the menu -->
@@ -39,8 +39,7 @@
                             <img src="http://www.jituwang.com/uploads/allimg/151003/258203-1510030RP894.jpg" class="img-circle" alt="User Image">
 
                             <p>
-                                {{ Admin::user()->staff_name }}
-                                <small>{{ Admin::user()->staff_custom_type?:Admin::user()->staff_type }}</small>
+                                {{ Admin::user()->name }}
                             </p>
                         </li>
                         <li class="user-footer">
