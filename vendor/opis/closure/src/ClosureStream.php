@@ -1,12 +1,15 @@
 <?php
 /* ===========================================================================
- * Copyright (c) 2018 Zindex Software
+ * Copyright (c) 2018-2019 Zindex Software
  *
  * Licensed under the MIT License
  * =========================================================================== */
 
 namespace Opis\Closure;
 
+/**
+ * @internal
+ */
 class ClosureStream
 {
     const STREAM_PROTO = 'closure';

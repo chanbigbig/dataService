@@ -1,7 +1,47 @@
-Version 4.1.2-dev
+Version 4.2.3-dev
 -----------------
 
 Nothing yet.
+
+Version 4.2.2 (2019-05-25)
+--------------------------
+
+### Added
+
+* [PHP 7.4] Add support for arrow functions using a new `Expr\ArrowFunction` node. (#602)
+* [PHP 7.4] Add support for array spreads, using a new `unpack` subnode on `ArrayItem`. (#609)
+* Added support for inserting into empty list nodes in the formatting preserving pretty printer.
+
+### Changed
+
+* `php-parse` will now print messages to stderr, so that stdout only contains the actual result of
+  the operation (such as a JSON dump). (#605)
+
+### Fixed
+
+* Fixed attribute assignment for zero-length nop statements, and a related assertion failure in
+  the formatting-preserving pretty printer. (#589)
+
+Version 4.2.1 (2019-02-16)
+--------------------------
+
+### Added
+
+* [PHP 7.4] Add support for `??=` operator through a new `AssignOp\Coalesce` node. (#575)
+
+Version 4.2.0 (2019-01-12)
+--------------------------
+
+### Added
+
+* [PHP 7.4] Add support for typed properties through a new `type` subnode of `Stmt\Property`.
+  Additionally `Builder\Property` now has a `setType()` method. (#567)
+* Add `kind` attribute to `Cast\Double_`, which allows to distinguish between `(float)`,
+  `(double)` and `(real)`. The form of the cast will be preserved by the pretty printer. (#565)
+
+### Fixed
+
+* Remove assertion when pretty printing anonymous class with a name (#554).
 
 Version 4.1.1 (2018-12-26)
 --------------------------
@@ -9,7 +49,6 @@ Version 4.1.1 (2018-12-26)
 ### Fixed
 
 * Fix "undefined offset" notice when parsing specific malformed code (#551).
-* Remove assertion when pretty printing anonymous class with a name (#554).
 
 ### Added
 

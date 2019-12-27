@@ -39,3 +39,43 @@ a.editable-empty {
 .mailbox-attachments li {
     width: 300px !important;
 }
+
+.table-has-many .form-group {
+    margin-bottom: 0 !important;
+}
+
+
+.table-has-many label.control-label[for=inputError] {
+    position: absolute;
+    z-index: 100;
+    background-color: #fff;
+    border: 1px solid #dd4b39;
+    border-radius: 5px;
+    text-align: left;
+    top: 34px;
+    padding: 8px;
+    line-height: 1.2;
+}
+
+.table-has-many label.control-label[for=inputError]+br {
+    display: none;
+}
+
+#totop {
+    display: none;
+    position: fixed;
+    bottom: 40px;
+    right: 20px;
+    z-index: 99;
+    outline: none;
+    background-color: #3c8dbc;
+    color: white;
+    cursor: pointer;
+    padding: 10px 15px;
+    border-radius: 4px;
+    opacity: 0.5;
+}
+
+#totop:hover {
+    opacity: 1;
+}

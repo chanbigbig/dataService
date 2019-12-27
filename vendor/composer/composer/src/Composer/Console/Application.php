@@ -89,7 +89,7 @@ class Application extends BaseApplication
 
         $this->io = new NullIO();
 
-        parent::__construct('Composer', Composer::VERSION);
+        parent::__construct('Composer', Composer::getVersion());
     }
 
     /**
@@ -181,7 +181,7 @@ class Application extends BaseApplication
         if (!$isProxyCommand) {
             $io->writeError(sprintf(
                 'Running %s (%s) with %s on %s',
-                Composer::VERSION,
+                Composer::getVersion(),
                 Composer::RELEASE_DATE,
                 defined('HHVM_VERSION') ? 'HHVM '.HHVM_VERSION : 'PHP '.PHP_VERSION,
                 function_exists('php_uname') ? php_uname('s') . ' / ' . php_uname('r') : 'Unknown OS'
@@ -262,7 +262,7 @@ class Application extends BaseApplication
             }
 
             if (isset($startTime)) {
-                $io->writeError('<info>Memory usage: '.round(memory_get_usage() / 1024 / 1024, 2).'MB (peak: '.round(memory_get_peak_usage() / 1024 / 1024, 2).'MB), time: '.round(microtime(true) - $startTime, 2).'s');
+                $io->writeError('<info>Memory usage: '.round(memory_get_usage() / 1024 / 1024, 2).'MiB (peak: '.round(memory_get_peak_usage() / 1024 / 1024, 2).'MiB), time: '.round(microtime(true) - $startTime, 2).'s');
             }
 
             restore_error_handler();
@@ -425,7 +425,7 @@ class Application extends BaseApplication
      */
     public function getLongVersion()
     {
-        if (Composer::BRANCH_ALIAS_VERSION) {
+        if (Composer::BRANCH_ALIAS_VERSION && Composer::BRANCH_ALIAS_VERSION !== '@package_branch_alias_version'.'@') {
             return sprintf(
                 '<info>%s</info> version <comment>%s (%s)</comment> %s',
                 $this->getName(),

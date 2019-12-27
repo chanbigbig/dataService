@@ -18,6 +18,7 @@ class Field implements Renderable
     use Macroable;
 
     const FILE_DELETE_FLAG = '_file_del_';
+    const FILE_SORT_FLAG = '_file_sort_';
 
     /**
      * Element id.
@@ -32,6 +33,13 @@ class Field implements Renderable
      * @var mixed
      */
     protected $value;
+
+    /**
+     * Data of all original columns of value.
+     *
+     * @var mixed
+     */
+    protected $data;
 
     /**
      * Field original value.
@@ -213,6 +221,11 @@ class Field implements Renderable
     protected $labelClass = [];
 
     /**
+     * @var array
+     */
+    protected $groupClass = [];
+
+    /**
      * Field constructor.
      *
      * @param       $column
@@ -332,15 +345,17 @@ class Field implements Renderable
 //            return;
 //        }
 
+        $this->data = $data;
+
         if (is_array($this->column)) {
             foreach ($this->column as $key => $column) {
-                $this->value[$key] = array_get($data, $column);
+                $this->value[$key] = Arr::get($data, $column);
             }
 
             return;
         }
 
-        $this->value = array_get($data, $this->column);
+        $this->value = Arr::get($data, $this->column);
         if (isset($this->customFormat) && $this->customFormat instanceof \Closure) {
             $this->value = call_user_func($this->customFormat, $this->value);
         }
@@ -371,13 +386,13 @@ class Field implements Renderable
     {
         if (is_array($this->column)) {
             foreach ($this->column as $key => $column) {
-                $this->original[$key] = array_get($data, $column);
+                $this->original[$key] = Arr::get($data, $column);
             }
 
             return;
         }
 
-        $this->original = array_get($data, $this->column);
+        $this->original = Arr::get($data, $this->column);
     }
 
     /**
@@ -447,6 +462,26 @@ class Field implements Renderable
     }
 
     /**
+     * Add `required` attribute to current field if has required rule,
+     * except file and image fields.
+     *
+     * @param array $rules
+     */
+    protected function addRequiredAttribute($rules)
+    {
+        if (!in_array('required', $rules)) {
+            return;
+        }
+
+        if ($this instanceof Form\Field\MultipleFile
+            || $this instanceof Form\Field\File) {
+            return;
+        }
+
+        $this->required();
+    }
+
+    /**
      * Get or set rules.
      *
      * @param null  $rules
@@ -464,8 +499,12 @@ class Field implements Renderable
             $thisRuleArr = array_filter(explode('|', $this->rules));
 
             $this->rules = array_merge($thisRuleArr, $rules);
+
+            $this->addRequiredAttribute($this->rules);
         } elseif (is_string($rules)) {
             $rules = array_filter(explode('|', "{$this->rules}|$rules"));
+
+            $this->addRequiredAttribute($rules);
 
             $this->rules = implode('|', $rules);
         }
@@ -563,6 +602,24 @@ class Field implements Renderable
     }
 
     /**
+     * Set or get data.
+     *
+     * @param array $data
+     *
+     * @return $this
+     */
+    public function data(array $data = null)
+    {
+        if (is_null($data)) {
+            return $this->data;
+        }
+
+        $this->data = $data;
+
+        return $this;
+    }
+
+    /**
      * Set default value for field.
      *
      * @param $default
@@ -655,7 +712,7 @@ class Field implements Renderable
         }
 
         if (is_string($this->column)) {
-            if (!array_has($input, $this->column)) {
+            if (!Arr::has($input, $this->column)) {
                 return false;
             }
 
@@ -670,7 +727,7 @@ class Field implements Renderable
                 if (!array_key_exists($column, $input)) {
                     continue;
                 }
-                $input[$column.$key] = array_get($input, $column);
+                $input[$column.$key] = Arr::get($input, $column);
                 $rules[$column.$key] = $fieldRules;
                 $attributes[$column.$key] = $this->label."[$column]";
             }
@@ -690,8 +747,8 @@ class Field implements Renderable
     protected function sanitizeInput($input, $column)
     {
         if ($this instanceof Field\MultipleSelect) {
-            $value = array_get($input, $column);
-            array_set($input, $column, array_filter($value));
+            $value = Arr::get($input, $column);
+            Arr::set($input, $column, array_filter($value));
         }
 
         return $input;
@@ -861,7 +918,7 @@ class Field implements Renderable
      */
     public function setElementClass($class)
     {
-        $this->elementClass = (array) $class;
+        $this->elementClass = array_merge($this->elementClass, (array) $class);
 
         return $this;
     }
@@ -960,9 +1017,52 @@ class Field implements Renderable
         }
 
         foreach ($delClass as $del) {
-            if (($key = array_search($del, $this->elementClass))) {
+            if (($key = array_search($del, $this->elementClass)) !== false) {
                 unset($this->elementClass[$key]);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Set form group class.
+     *
+     * @param string|array $class
+     *
+     * @return $this
+     */
+    public function setGroupClass($class)
+    : self
+    {
+        array_push($this->groupClass, $class);
+
+        return $this;
+    }
+
+    /**
+     * Get element class.
+     *
+     * @return array
+     */
+    protected function getGroupClass($default = false)
+    : string
+    {
+        return ($default ? 'form-group ' : '').implode(' ', array_filter($this->groupClass));
+    }
+
+    /**
+     * reset field className.
+     *
+     * @param string $className
+     * @param string $resetClassName
+     *
+     * @return $this
+     */
+    public function resetElementClassName(string $className, string $resetClassName)
+    {
+        if (($key = array_search($className, $this->getElementClass())) !== false) {
+            $this->elementClass[$key] = $resetClassName;
         }
 
         return $this;
@@ -1043,6 +1143,18 @@ class Field implements Renderable
     }
 
     /**
+     * Set view of current field.
+     *
+     * @return string
+     */
+    public function setView($view)
+    {
+        $this->view = $view;
+
+        return $this;
+    }
+
+    /**
      * Get script of current field.
      *
      * @return string
@@ -1050,6 +1162,30 @@ class Field implements Renderable
     public function getScript()
     {
         return $this->script;
+    }
+
+    /**
+     * Set script of current field.
+     *
+     * @return self
+     */
+    public function setScript($script)
+    {
+        $this->script = $script;
+
+        return $this;
+    }
+
+    /**
+     * To set this field should render or not.
+     *
+     * @return self
+     */
+    public function setDisplay(bool $display)
+    {
+        $this->display = $display;
+
+        return $this;
     }
 
     /**

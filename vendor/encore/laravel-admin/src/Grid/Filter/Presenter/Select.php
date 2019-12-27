@@ -125,7 +125,7 @@ SCRIPT;
 
             if (is_array($value)) {
                 if (Arr::isAssoc($value)) {
-                    $resources[] = array_get($value, $idField);
+                    $resources[] = Arr::get($value, $idField);
                 } else {
                     $resources = array_column($value, $idField);
                 }
@@ -166,13 +166,18 @@ SCRIPT;
 
         $ajaxOptions = json_encode(array_merge($ajaxOptions, $options), JSON_UNESCAPED_UNICODE);
 
+        $values = (array) $this->filter->getValue();
+        $values = array_filter($values);
+        $values = json_encode($values);
+
         $this->script = <<<EOT
 
 $.ajax($ajaxOptions).done(function(data) {
   $(".{$this->getElementClass()}").select2({
     data: data,
     $configs
-  });
+  }).val($values).trigger("change");
+  
 });
 
 EOT;
@@ -280,7 +285,7 @@ $(document).on('change', ".{$this->getClass($column)}", function () {
             }));
         });
         
-        $(target).trigger('change');
+        $(target).val(null).trigger('change');
     });
 });
 EOT;

@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\DomCrawler;
 
+use Masterminds\HTML5;
 use Symfony\Component\CssSelector\CssSelectorConverter;
 
 /**
@@ -30,7 +31,7 @@ class Crawler implements \Countable, \IteratorAggregate
     /**
      * @var array A map of manually registered namespaces
      */
-    private $namespaces = array();
+    private $namespaces = [];
 
     /**
      * @var string The base href value
@@ -45,7 +46,7 @@ class Crawler implements \Countable, \IteratorAggregate
     /**
      * @var \DOMElement[]
      */
-    private $nodes = array();
+    private $nodes = [];
 
     /**
      * Whether the Crawler contains HTML or XML content (used when converting CSS to XPath).
@@ -53,6 +54,11 @@ class Crawler implements \Countable, \IteratorAggregate
      * @var bool
      */
     private $isHtml = true;
+
+    /**
+     * @var HTML5|null
+     */
+    private $html5Parser;
 
     /**
      * @param mixed  $node     A Node to use as the base for the crawling
@@ -63,6 +69,7 @@ class Crawler implements \Countable, \IteratorAggregate
     {
         $this->uri = $uri;
         $this->baseHref = $baseHref ?: $uri;
+        $this->html5Parser = class_exists(HTML5::class) ? new HTML5(['disable_html_ns' => true]) : null;
 
         $this->add($node);
     }
@@ -92,7 +99,7 @@ class Crawler implements \Countable, \IteratorAggregate
      */
     public function clear()
     {
-        $this->nodes = array();
+        $this->nodes = [];
         $this->document = null;
     }
 
@@ -183,32 +190,11 @@ class Crawler implements \Countable, \IteratorAggregate
      */
     public function addHtmlContent($content, $charset = 'UTF-8')
     {
-        $internalErrors = libxml_use_internal_errors(true);
-        $disableEntities = libxml_disable_entity_loader(true);
-
-        $dom = new \DOMDocument('1.0', $charset);
-        $dom->validateOnParse = true;
-
-        set_error_handler(function () { throw new \Exception(); });
-
-        try {
-            // Convert charset to HTML-entities to work around bugs in DOMDocument::loadHTML()
-            $content = mb_convert_encoding($content, 'HTML-ENTITIES', $charset);
-        } catch (\Exception $e) {
-        }
-
-        restore_error_handler();
-
-        if ('' !== trim($content)) {
-            @$dom->loadHTML($content);
-        }
-
-        libxml_use_internal_errors($internalErrors);
-        libxml_disable_entity_loader($disableEntities);
-
+        // Use HTML5 parser if the content is HTML5 and the library is available
+        $dom = null !== $this->html5Parser && strspn($content, " \t\r\n") === stripos($content, '<!doctype html>') ? $this->parseHtml5($content, $charset) : $this->parseXhtml($content, $charset);
         $this->addDocument($dom);
 
-        $base = $this->filterRelativeXPath('descendant-or-self::base')->extract(array('href'));
+        $base = $this->filterRelativeXPath('descendant-or-self::base')->extract(['href']);
 
         $baseHref = current($base);
         if (\count($base) && !empty($baseHref)) {
@@ -363,7 +349,7 @@ class Crawler implements \Countable, \IteratorAggregate
      */
     public function each(\Closure $closure)
     {
-        $data = array();
+        $data = [];
         foreach ($this->nodes as $i => $node) {
             $data[] = $closure($this->createSubCrawler($node), $i);
         }
@@ -395,7 +381,7 @@ class Crawler implements \Countable, \IteratorAggregate
      */
     public function reduce(\Closure $closure)
     {
-        $nodes = array();
+        $nodes = [];
         foreach ($this->nodes as $i => $node) {
             if (false !== $closure($this->createSubCrawler($node), $i)) {
                 $nodes[] = $node;
@@ -487,7 +473,7 @@ class Crawler implements \Countable, \IteratorAggregate
         }
 
         $node = $this->getNode(0);
-        $nodes = array();
+        $nodes = [];
 
         while ($node = $node->parentNode) {
             if (XML_ELEMENT_NODE === $node->nodeType) {
@@ -528,7 +514,7 @@ class Crawler implements \Countable, \IteratorAggregate
 
         $node = $this->getNode(0)->firstChild;
 
-        return $this->createSubCrawler($node ? $this->sibling($node) : array());
+        return $this->createSubCrawler($node ? $this->sibling($node) : []);
     }
 
     /**
@@ -570,13 +556,19 @@ class Crawler implements \Countable, \IteratorAggregate
     /**
      * Returns the node value of the first node of the list.
      *
+     * @param mixed $default When provided and the current node is empty, this value is returned and no exception is thrown
+     *
      * @return string The node value
      *
      * @throws \InvalidArgumentException When current node is empty
      */
-    public function text()
+    public function text(/* $default = null */)
     {
         if (!$this->nodes) {
+            if (0 < \func_num_args()) {
+                return \func_get_arg(0);
+            }
+
             throw new \InvalidArgumentException('The current node list is empty.');
         }
 
@@ -586,19 +578,32 @@ class Crawler implements \Countable, \IteratorAggregate
     /**
      * Returns the first node of the list as HTML.
      *
+     * @param mixed $default When provided and the current node is empty, this value is returned and no exception is thrown
+     *
      * @return string The node html
      *
      * @throws \InvalidArgumentException When current node is empty
      */
-    public function html()
+    public function html(/* $default = null */)
     {
         if (!$this->nodes) {
+            if (0 < \func_num_args()) {
+                return \func_get_arg(0);
+            }
+
             throw new \InvalidArgumentException('The current node list is empty.');
         }
 
+        $node = $this->getNode(0);
+        $owner = $node->ownerDocument;
+
+        if (null !== $this->html5Parser && '<!DOCTYPE html>' === $owner->saveXML($owner->childNodes[0])) {
+            $owner = $this->html5Parser;
+        }
+
         $html = '';
-        foreach ($this->getNode(0)->childNodes as $child) {
-            $html .= $child->ownerDocument->saveHTML($child);
+        foreach ($node->childNodes as $child) {
+            $html .= $owner->saveHTML($child);
         }
 
         return $html;
@@ -620,7 +625,7 @@ class Crawler implements \Countable, \IteratorAggregate
             throw new \LogicException('Cannot evaluate the expression on an uninitialized crawler.');
         }
 
-        $data = array();
+        $data = [];
         $domxpath = $this->createDOMXPath($this->document, $this->findNamespacePrefixes($xpath));
 
         foreach ($this->nodes as $node) {
@@ -641,7 +646,7 @@ class Crawler implements \Countable, \IteratorAggregate
      *
      * Example:
      *
-     *     $crawler->filter('h1 a')->extract(array('_text', 'href'));
+     *     $crawler->filter('h1 a')->extract(['_text', 'href']);
      *
      * @param array $attributes An array of attributes
      *
@@ -652,12 +657,14 @@ class Crawler implements \Countable, \IteratorAggregate
         $attributes = (array) $attributes;
         $count = \count($attributes);
 
-        $data = array();
+        $data = [];
         foreach ($this->nodes as $node) {
-            $elements = array();
+            $elements = [];
             foreach ($attributes as $attribute) {
                 if ('_text' === $attribute) {
                     $elements[] = $node->nodeValue;
+                } elseif ('_name' === $attribute) {
+                    $elements[] = $node->nodeName;
                 } else {
                     $elements[] = $node->getAttribute($attribute);
                 }
@@ -787,7 +794,7 @@ class Crawler implements \Countable, \IteratorAggregate
      */
     public function links()
     {
-        $links = array();
+        $links = [];
         foreach ($this->nodes as $node) {
             if (!$node instanceof \DOMElement) {
                 throw new \InvalidArgumentException(sprintf('The current node list should contain only DOMElement instances, "%s" found.', \get_class($node)));
@@ -828,7 +835,7 @@ class Crawler implements \Countable, \IteratorAggregate
      */
     public function images()
     {
-        $images = array();
+        $images = [];
         foreach ($this as $node) {
             if (!$node instanceof \DOMElement) {
                 throw new \InvalidArgumentException(sprintf('The current node list should contain only DOMElement instances, "%s" found.', \get_class($node)));
@@ -922,7 +929,7 @@ class Crawler implements \Countable, \IteratorAggregate
         }
 
         $string = $s;
-        $parts = array();
+        $parts = [];
         while (true) {
             if (false !== $pos = strpos($string, "'")) {
                 $parts[] = sprintf("'%s'", substr($string, 0, $pos));
@@ -968,10 +975,10 @@ class Crawler implements \Countable, \IteratorAggregate
      */
     private function relativize(string $xpath): string
     {
-        $expressions = array();
+        $expressions = [];
 
         // An expression which will never match to replace expressions which cannot match in the crawler
-        // We cannot simply drop
+        // We cannot drop
         $nonMatchingExpression = 'a[name() = "b"]';
 
         $xpathLen = \strlen($xpath);
@@ -1086,7 +1093,7 @@ class Crawler implements \Countable, \IteratorAggregate
      */
     protected function sibling($node, $siblingDir = 'nextSibling')
     {
-        $nodes = array();
+        $nodes = [];
 
         $currentNode = $this->getNode(0);
         do {
@@ -1098,10 +1105,57 @@ class Crawler implements \Countable, \IteratorAggregate
         return $nodes;
     }
 
+    private function parseHtml5(string $htmlContent, string $charset = 'UTF-8'): \DOMDocument
+    {
+        return $this->html5Parser->parse($this->convertToHtmlEntities($htmlContent, $charset), [], $charset);
+    }
+
+    private function parseXhtml(string $htmlContent, string $charset = 'UTF-8'): \DOMDocument
+    {
+        $htmlContent = $this->convertToHtmlEntities($htmlContent, $charset);
+
+        $internalErrors = libxml_use_internal_errors(true);
+        $disableEntities = libxml_disable_entity_loader(true);
+
+        $dom = new \DOMDocument('1.0', $charset);
+        $dom->validateOnParse = true;
+
+        if ('' !== trim($htmlContent)) {
+            @$dom->loadHTML($htmlContent);
+        }
+
+        libxml_use_internal_errors($internalErrors);
+        libxml_disable_entity_loader($disableEntities);
+
+        return $dom;
+    }
+
+    /**
+     * Converts charset to HTML-entities to ensure valid parsing.
+     */
+    private function convertToHtmlEntities(string $htmlContent, string $charset = 'UTF-8'): string
+    {
+        set_error_handler(function () { throw new \Exception(); });
+
+        try {
+            return mb_convert_encoding($htmlContent, 'HTML-ENTITIES', $charset);
+        } catch (\Exception $e) {
+            try {
+                $htmlContent = iconv($charset, 'UTF-8', $htmlContent);
+                $htmlContent = mb_convert_encoding($htmlContent, 'HTML-ENTITIES', 'UTF-8');
+            } catch (\Exception $e) {
+            }
+
+            return $htmlContent;
+        } finally {
+            restore_error_handler();
+        }
+    }
+
     /**
      * @throws \InvalidArgumentException
      */
-    private function createDOMXPath(\DOMDocument $document, array $prefixes = array()): \DOMXPath
+    private function createDOMXPath(\DOMDocument $document, array $prefixes = []): \DOMXPath
     {
         $domxpath = new \DOMXPath($document);
 
@@ -1140,7 +1194,7 @@ class Crawler implements \Countable, \IteratorAggregate
             return array_unique($matches['prefix']);
         }
 
-        return array();
+        return [];
     }
 
     /**
@@ -1156,6 +1210,7 @@ class Crawler implements \Countable, \IteratorAggregate
         $crawler->isHtml = $this->isHtml;
         $crawler->document = $this->document;
         $crawler->namespaces = $this->namespaces;
+        $crawler->html5Parser = $this->html5Parser;
 
         return $crawler;
     }

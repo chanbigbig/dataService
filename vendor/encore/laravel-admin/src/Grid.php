@@ -5,11 +5,10 @@ namespace Encore\Admin;
 use Closure;
 use Encore\Admin\Exception\Handler;
 use Encore\Admin\Grid\Column;
+use Encore\Admin\Grid\Concerns;
 use Encore\Admin\Grid\Displayers;
 use Encore\Admin\Grid\Exporter;
 use Encore\Admin\Grid\Exporters\AbstractExporter;
-use Encore\Admin\Grid\Filter;
-use Encore\Admin\Grid\HasElementNames;
 use Encore\Admin\Grid\Model;
 use Encore\Admin\Grid\Row;
 use Encore\Admin\Grid\Tools;
@@ -17,11 +16,17 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
 use Illuminate\Database\Eloquent\Relations;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Str;
 use Jenssegers\Mongodb\Eloquent\Model as MongodbModel;
 
 class Grid
 {
-    use HasElementNames;
+    use Concerns\HasElementNames,
+        Concerns\HasHeader,
+        Concerns\HasFooter,
+        Concerns\HasFilter,
+        Concerns\HasTools,
+        Concerns\HasTotalRow;
 
     /**
      * The grid data model instance.
@@ -80,13 +85,6 @@ class Grid
     protected $variables = [];
 
     /**
-     * The grid Filter.
-     *
-     * @var \Encore\Admin\Grid\Filter
-     */
-    protected $filter;
-
-    /**
      * Resource path of the grid.
      *
      * @var
@@ -129,13 +127,6 @@ class Grid
     public $perPage = 20;
 
     /**
-     * Header tools.
-     *
-     * @var Tools
-     */
-    public $tools;
-
-    /**
      * Callback for grid actions.
      *
      * @var Closure
@@ -143,24 +134,39 @@ class Grid
     protected $actionsCallback;
 
     /**
+     * Actions column display class.
+     *
+     * @var string
+     */
+    protected $actionsClass = Displayers\Actions::class;
+
+    /**
      * Options for grid.
      *
      * @var array
      */
     protected $options = [
-        'usePagination'  => true,
-        'useTools'       => true,
-        'useFilter'      => true,
-        'useExporter'    => true,
-        'useActions'     => true,
-        'useRowSelector' => true,
-        'allowCreate'    => true,
+        'show_pagination'        => true,
+        'show_tools'             => true,
+        'show_filter'            => true,
+        'show_exporter'          => true,
+        'show_actions'           => true,
+        'show_row_selector'      => true,
+        'show_create_btn'        => true,
+        'show_column_selector'   => true,
     ];
 
     /**
-     * @var Closure
+     * @var string
      */
-    protected $footer;
+    public $tableID;
+
+    /**
+     * Initialization closure array.
+     *
+     * @var []Closure
+     */
+    protected static $initCallbacks = [];
 
     /**
      * Create a new grid instance.
@@ -175,6 +181,7 @@ class Grid
         $this->columns = new Collection();
         $this->rows = new Collection();
         $this->builder = $builder;
+        $this->tableID = uniqid('grid-table');
 
         $this->model()->setGrid($this);
 
@@ -182,24 +189,32 @@ class Grid
         $this->setupFilter();
 
         $this->handleExportRequest();
+
+        $this->callInitCallbacks();
     }
 
     /**
-     * Setup grid tools.
-     */
-    public function setupTools()
-    {
-        $this->tools = new Tools($this);
-    }
-
-    /**
-     * Setup grid filter.
+     * Initialize with user pre-defined default disables and exporter, etc.
      *
-     * @return void
+     * @param Closure $callback
      */
-    protected function setupFilter()
+    public static function init(Closure $callback = null)
     {
-        $this->filter = new Filter($this->model());
+        static::$initCallbacks[] = $callback;
+    }
+
+    /**
+     * Call the initialization closure array in sequence.
+     */
+    protected function callInitCallbacks()
+    {
+        if (empty(static::$initCallbacks)) {
+            return;
+        }
+
+        foreach (static::$initCallbacks as $callback) {
+            call_user_func($callback, $this);
+        }
     }
 
     /**
@@ -289,7 +304,7 @@ class Grid
 
             $label = empty($label) ? ucfirst($relationColumn) : $label;
 
-            $name = snake_case($relationName).'.'.$relationColumn;
+            $name = Str::snake($relationName).'.'.$relationColumn;
         }
 
         $column = $this->addColumn($name, $label);
@@ -330,6 +345,46 @@ class Grid
         foreach (func_get_args() as $column) {
             $this->column($column);
         }
+    }
+
+    /**
+     * Get all visible column instances.
+     *
+     * @return Collection|static
+     */
+    public function visibleColumns()
+    {
+        $visible = array_filter(explode(',', request(Tools\ColumnSelector::SELECT_COLUMN_NAME)));
+
+        if (empty($visible)) {
+            return $this->columns;
+        }
+
+        array_push($visible, '__row_selector__', '__actions__');
+
+        return $this->columns->filter(function (Column $column) use ($visible) {
+            return in_array($column->getName(), $visible);
+        });
+    }
+
+    /**
+     * Get all visible column names.
+     *
+     * @return array|static
+     */
+    public function visibleColumnNames()
+    {
+        $visible = array_filter(explode(',', request(Tools\ColumnSelector::SELECT_COLUMN_NAME)));
+
+        if (empty($visible)) {
+            return $this->columnNames;
+        }
+
+        array_push($visible, '__row_selector__', '__actions__');
+
+        return collect($this->columnNames)->filter(function ($column) use ($visible) {
+            return in_array($column, $visible);
+        });
     }
 
     /**
@@ -407,13 +462,11 @@ class Grid
      *
      * @return $this
      */
-    public function disablePagination()
+    public function disablePagination(bool $disable = true)
     {
-        $this->model->usePaginate(false);
+        $this->model->usePaginate(!$disable);
 
-        $this->option('usePagination', false);
-
-        return $this;
+        return $this->option('show_pagination', !$disable);
     }
 
     /**
@@ -421,9 +474,9 @@ class Grid
      *
      * @return bool
      */
-    public function usePagination()
+    public function showPagination()
     {
-        return $this->option('usePagination');
+        return $this->option('show_pagination');
     }
 
     /**
@@ -441,21 +494,27 @@ class Grid
      *
      * @return $this
      */
-    public function disableActions()
+    public function disableActions(bool $disable = true)
     {
-        return $this->option('useActions', false);
+        return $this->option('show_actions', !$disable);
     }
 
     /**
      * Set grid action callback.
      *
-     * @param Closure $callback
+     * @param Closure|string $actions
      *
      * @return $this
      */
-    public function actions(Closure $callback)
+    public function actions($actions)
     {
-        $this->actionsCallback = $callback;
+        if ($actions instanceof Closure) {
+            $this->actionsCallback = $actions;
+        }
+
+        if (is_string($actions) && is_subclass_of($actions, Displayers\Actions::class)) {
+            $this->actionsClass = $actions;
+        }
 
         return $this;
     }
@@ -467,12 +526,12 @@ class Grid
      */
     protected function appendActionsColumn()
     {
-        if (!$this->option('useActions')) {
+        if (!$this->option('show_actions')) {
             return;
         }
 
         $this->addColumn('__actions__', trans('admin.action'))
-            ->displayUsing(Displayers\Actions::class, [$this->actionsCallback]);
+            ->displayUsing($this->actionsClass, [$this->actionsCallback]);
     }
 
     /**
@@ -480,14 +539,11 @@ class Grid
      *
      * @return Grid|mixed
      */
-    public function disableRowSelector()
+    public function disableRowSelector(bool $disable = true)
     {
-        $this->tools(function ($tools) {
-            /* @var Grid\Tools $tools */
-            $tools->disableBatchActions();
-        });
+        $this->tools->disableBatchActions($disable);
 
-        return $this->option('useRowSelector', false);
+        return $this->option('show_row_selector', !$disable);
     }
 
     /**
@@ -497,7 +553,7 @@ class Grid
      */
     protected function prependRowSelectorColumn()
     {
-        if (!$this->option('useRowSelector')) {
+        if (!$this->option('show_row_selector')) {
             return;
         }
 
@@ -537,94 +593,6 @@ class Grid
     }
 
     /**
-     * Disable header tools.
-     *
-     * @return $this
-     */
-    public function disableTools()
-    {
-        $this->option('useTools', false);
-
-        return $this;
-    }
-
-    /**
-     * Disable grid filter.
-     *
-     * @return $this
-     */
-    public function disableFilter()
-    {
-        $this->option('useFilter', false);
-
-        $this->tools->disableFilterButton();
-
-        return $this;
-    }
-
-    /**
-     * Get filter of Grid.
-     *
-     * @return Filter
-     */
-    public function getFilter()
-    {
-        return $this->filter;
-    }
-
-    /**
-     * Process the grid filter.
-     *
-     * @param bool $toArray
-     *
-     * @return array|Collection|mixed
-     */
-    public function processFilter($toArray = true)
-    {
-        if ($this->builder) {
-            call_user_func($this->builder, $this);
-        }
-
-        return $this->filter->execute($toArray);
-    }
-
-    /**
-     * Set the grid filter.
-     *
-     * @param Closure $callback
-     */
-    public function filter(Closure $callback)
-    {
-        call_user_func($callback, $this->filter);
-    }
-
-    /**
-     * Render the grid filter.
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|string
-     */
-    public function renderFilter()
-    {
-        if (!$this->option('useFilter')) {
-            return '';
-        }
-
-        return $this->filter->render();
-    }
-
-    /**
-     * Expand filter.
-     *
-     * @return $this
-     */
-    public function expandFilter()
-    {
-        $this->filter->expand();
-
-        return $this;
-    }
-
-    /**
      * Build the grid rows.
      *
      * @param array $data
@@ -656,28 +624,6 @@ class Grid
         }
 
         $this->rowsCallback = $callable;
-    }
-
-    /**
-     * Setup grid tools.
-     *
-     * @param Closure $callback
-     *
-     * @return void
-     */
-    public function tools(Closure $callback)
-    {
-        call_user_func($callback, $this->tools);
-    }
-
-    /**
-     * Render custom tools.
-     *
-     * @return string
-     */
-    public function renderHeaderTools()
-    {
-        return $this->tools->render();
     }
 
     /**
@@ -733,23 +679,13 @@ class Grid
     }
 
     /**
-     * If grid allows to use header tools.
+     * If grid show export btn.
      *
      * @return bool
      */
-    public function allowTools()
+    public function showExportBtn()
     {
-        return $this->option('useTools');
-    }
-
-    /**
-     * If grid allows export.s.
-     *
-     * @return bool
-     */
-    public function allowExport()
-    {
-        return $this->option('useExporter');
+        return $this->option('show_exporter');
     }
 
     /**
@@ -757,9 +693,9 @@ class Grid
      *
      * @return $this
      */
-    public function disableExport()
+    public function disableExport(bool $disable = true)
     {
-        return $this->option('useExporter', false);
+        return $this->option('show_exporter', !$disable);
     }
 
     /**
@@ -789,9 +725,9 @@ class Grid
      *
      * @return $this
      */
-    public function disableCreateButton()
+    public function disableCreateButton(bool $disable = true)
     {
-        return $this->option('allowCreate', false);
+        return $this->option('show_create_btn', !$disable);
     }
 
     /**
@@ -799,9 +735,9 @@ class Grid
      *
      * @return bool
      */
-    public function allowCreation()
+    public function showCreateBtn()
     {
-        return $this->option('allowCreate');
+        return $this->option('show_create_btn');
     }
 
     /**
@@ -815,35 +751,31 @@ class Grid
     }
 
     /**
-     * Set grid footer.
+     * Remove column selector on grid.
      *
-     * @param Closure|null $closure
+     * @param bool $disable
      *
-     * @return Closure
+     * @return Grid|mixed
      */
-    public function footer(Closure $closure = null)
+    public function disableColumnSelector(bool $disable = true)
     {
-        if (!$closure) {
-            return $this->footer;
-        }
-
-        $this->footer = $closure;
-
-        return $this;
+        return $this->option('show_column_selector', !$disable);
     }
 
     /**
-     * Render grid footer.
-     *
-     * @return Tools\Footer|string
+     * @return bool
      */
-    public function renderFooter()
+    public function showColumnSelector()
     {
-        if (!$this->footer) {
-            return '';
-        }
+        return $this->option('show_column_selector');
+    }
 
-        return (new Tools\Footer($this))->render();
+    /**
+     * @return string
+     */
+    public function renderColumnSelector()
+    {
+        return (new Grid\Tools\ColumnSelector($this))->render();
     }
 
     /**
@@ -911,7 +843,7 @@ class Grid
         ) {
             $this->model()->with($method);
 
-            return $this->addColumn($method, $label)->setRelation(snake_case($method));
+            return $this->addColumn($method, $label)->setRelation(Str::snake($method));
         }
 
         if ($relation instanceof Relations\HasMany
@@ -920,7 +852,7 @@ class Grid
         ) {
             $this->model()->with($method);
 
-            return $this->addColumn(snake_case($method), $label);
+            return $this->addColumn(Str::snake($method), $label);
         }
 
         return false;
@@ -975,6 +907,8 @@ class Grid
             'checkbox'    => Displayers\Checkbox::class,
             'orderable'   => Displayers\Orderable::class,
             'table'       => Displayers\Table::class,
+            'expand'      => Displayers\Expand::class,
+            'modal'       => Displayers\Modal::class,
         ];
 
         foreach ($map as $abstract => $class) {
