@@ -13,3 +13,4 @@ _ide_helper.php
 .env
 .phpunit.result.cache
 *tmp
+/storage/admin
