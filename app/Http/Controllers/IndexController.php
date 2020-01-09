@@ -9,7 +9,6 @@ class IndexController extends Controller
 {
     public function test()
     {
-        Log::info("hello-world");
         return $this->success();
     }
 
