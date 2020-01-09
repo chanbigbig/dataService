@@ -11,42 +11,7 @@ function decodeIfJson($string)
     return json_last_error() == JSON_ERROR_NONE ? json_decode($string, true) : $string;
 }
 
-/**
- * 是否群聊
- * @param $wxid
- * @return int
- */
-function isChatroom($wxid)
-{
-    return preg_match("/@chatroom$/is", $wxid);
-}
 
-/**
- * 是否公众号
- * @param $wxid
- * @return int
- */
-function isWxGh($wxid)
-{
-    return preg_match("/^gh_/is", $wxid);
-}
-
-
-/**
- * 获取 wxid 类型，0用户，1群聊，2公众号
- * @param $wxid
- * @return int
- */
-function getWxidType($wxid)
-{
-    if (isChatroom($wxid)) {
-        return 1;
-    }
-    if (isWxGh($wxid)) {
-        return 2;
-    }
-    return 0;
-}
 
 /**
  * 获取好友搜索内容的类型
@@ -70,25 +35,6 @@ function getSearchScene($search)
     return 0;
 }
 
-/**
- * 是否app
- * @param $wxid
- * @return int
- */
-function isWxApp($wxid)
-{
-    return preg_match("/app$/is", $wxid);
-}
-
-/**
- * 是否app
- * @param $wxid
- * @return int
- */
-function isWxSpecial($wxid)
-{
-    return in_array($wxid, ['weixin', 'filehelper']);
-}
 
 
 /**

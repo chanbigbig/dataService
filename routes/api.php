@@ -20,3 +20,6 @@
 Route::get('test', 'IndexController@test');
 
 Route::get('homepage', 'HomePageController@getHomepageData');
+
+
+Route::Post('advise', 'HomePageController@advise');
