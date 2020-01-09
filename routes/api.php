@@ -18,3 +18,5 @@
 //});
 
 Route::get('test', 'IndexController@test');
+
+Route::get('homepage', 'HomePageController@getHomepageData');
