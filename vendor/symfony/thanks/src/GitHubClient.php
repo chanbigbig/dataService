@@ -58,9 +58,9 @@ class GitHubClient
             'name' => 'phpDocumentor/phpDocumentor2',
             'url' => 'https://github.com/phpDocumentor/phpDocumentor2',
         ],
-        'piwik' => [
+        'matomo' => [
             'name' => 'piwik/piwik',
-            'url' => 'https://github.com/piwik/piwik',
+            'url' => 'https://github.com/matomo-org/matomo',
         ],
         'reactphp' => [
             'name' => 'reactphp/react',
@@ -144,13 +144,13 @@ class GitHubClient
         ksort($urls);
 
         $i = 0;
-        $template = '_%d: repository(owner:"%s",name:"%s"){id,viewerHasStarred}'."\n";
+        $template = '_%d: repository(owner:"%s",name:"%s"){id,viewerHasStarred,fundingLinks{platform,url}}'."\n";
         $graphql = '';
 
         foreach ($urls as $package => $url) {
             if (preg_match('#^https://github.com/([^/]++)/(.*?)(?:\.git)?$#i', $url, $url)) {
                 $graphql .= sprintf($template, ++$i, $url[1], $url[2]);
-                $aliases['_'.$i] = [$package, $url[0]];
+                $aliases['_'.$i] = [$package, sprintf('https://github.com/%s/%s', $url[1], $url[2])];
             }
         }
 

@@ -77,7 +77,7 @@ class Date extends DateTimeImmutable implements ChronosInterface
      * timezone will always be UTC. Normalizing the timezone allows for
      * subtraction/addition to have deterministic results.
      *
-     * @param string|null $time Fixed or relative time
+     * @param string|null|\DateTimeInterface $time Fixed or relative time
      */
     public function __construct($time = 'now')
     {
@@ -133,17 +133,10 @@ class Date extends DateTimeImmutable implements ChronosInterface
      */
     public function __debugInfo()
     {
-        // Conditionally add properties if state exists to avoid
-        // errors when using a debugger.
-        $vars = get_object_vars($this);
-
         $properties = [
             'hasFixedNow' => static::hasTestNow(),
+            'date' => $this->format('Y-m-d'),
         ];
-
-        if (isset($vars['date'])) {
-            $properties['date'] = $this->format('Y-m-d');
-        }
 
         return $properties;
     }
