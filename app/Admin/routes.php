@@ -16,4 +16,6 @@ Route::group([
 
     $router->resource('navigation', 'NavigationController');
 
+    $router->resource('navigationbaby', 'NavigationChildController');
+
 });

@@ -88,6 +88,20 @@ class NavigationController extends Controller
         $grid->created_at('创建时间');
         $grid->updated_at('更新时间');
 
+        $grid->disableExport();
+        $grid->disableRowSelector();
+        $grid->tools(function (Grid\Tools $tools)
+        {
+            $tools->disableBatchActions();
+        });
+
+        $grid->actions(function (Grid\Displayers\Actions $actions)
+        {
+            $actions->disableView();
+
+            $actions->append('<a href="' . action('\App\Admin\Controllers\NavigationChildController@index', ['navigation_id' => $actions->row->id]) . '"><i class="fa fa-list" title="详情"></i></a>');
+        });
+
         return $grid;
     }
 
@@ -117,15 +131,19 @@ class NavigationController extends Controller
     {
         return Admin::form(Navigation::class, function (Form $form)
         {
-            $form->text('title', '标题内容');
-            $form->text('content', '详情');
+            $form->text('title', '标题内容')->default('');
+            $form->text('content', '详情')->default('');
             $states = [
                 'on' => ['value' => 1, 'text' => '发布', 'color' => 'primary'],
                 'off' => ['value' => 0, 'text' => '未发布', 'color' => 'default'],
             ];
 
             $form->switch('status', '发布状态')
-                ->states($states);
+                ->states($states)->default(0);
+            $form->tools(function (Form\Tools $tools)
+            {
+                $tools->disableView();
+            });
         });
 
     }
