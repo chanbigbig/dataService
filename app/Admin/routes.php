@@ -14,4 +14,6 @@ Route::group([
 
     $router->resource('orders', 'OrderController');
 
+    $router->resource('navigation', 'NavigationController');
+
 });
