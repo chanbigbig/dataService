@@ -17,9 +17,12 @@
 //    return $request->user();
 //});
 
-Route::get('test', 'IndexController@test');
+Route::group(['middleware' => ['cors']], function ()
+{
+    Route::get('test', 'IndexController@test');
 
-Route::get('homepage', 'HomePageController@getHomepageData');
+    Route::get('homepage', 'HomePageController@getHomepageData');
 
 
-Route::Post('advise', 'HomePageController@advise');
+    Route::post('advise', 'HomePageController@advise');
+});

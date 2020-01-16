@@ -16,12 +16,12 @@ class AppServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap any application services.
-     *
      * @return void
      */
     public function boot()
     {
-        define('REQUEST_MOBILE_FAILED', '请求失败，请检查设备是否在线');
+        //        define('REQUEST_MOBILE_FAILED', '请求失败，请检查设备是否在线');
+        !defined('REQUEST_MOBILE_FAILED') && define('REQUEST_MOBILE_FAILED', '请求失败，请检查设备是否在线');
 
 
         error_reporting(E_ALL ^ E_NOTICE);
@@ -48,7 +48,6 @@ class AppServiceProvider extends ServiceProvider
 
     /**
      * Register any application services.
-     *
      * @return void
      */
     public function register()
@@ -59,16 +58,16 @@ class AppServiceProvider extends ServiceProvider
             */
             $this->app->register('Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider');
 
-            //批量注册
-            foreach (glob(base_path('app/Repositories/') . '*.php') as $filename) {
-                $class = trim(basename($filename), '.php');
 
-                $this->app->singleton($class, function () use ($class)
-                {
-                    return app('App\Repositories\\' . $class);
-                });
-            }
         }
+        //批量注册
+        foreach (glob(base_path('app/Repositories/') . '*.php') as $filename) {
+            $class = trim(basename($filename), '.php');
 
+            $this->app->singleton($class, function () use ($class)
+            {
+                return app('App\Repositories\\' . $class);
+            });
+        }
     }
 }
