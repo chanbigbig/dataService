@@ -23,6 +23,7 @@ Route::group(['middleware' => ['cors']], function ()
 
     Route::get('homepage', 'HomePageController@getHomepageData');
 
-
     Route::post('advise', 'HomePageController@advise');
+
+    Route::get('course/list', 'CourseController@getList');
 });
