@@ -132,7 +132,7 @@ class NavigationController extends Controller
         return Admin::form(Navigation::class, function (Form $form)
         {
             $form->text('title', '标题内容')->default('');
-            $form->text('content', '详情')->default('');
+            $form->textarea('content', '详情')->default('');
             $states = [
                 'on' => ['value' => 1, 'text' => '发布', 'color' => 'primary'],
                 'off' => ['value' => 0, 'text' => '未发布', 'color' => 'default'],

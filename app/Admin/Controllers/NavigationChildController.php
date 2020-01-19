@@ -39,7 +39,7 @@ class NavigationChildController extends Controller
     {
         return $content
             ->header('二级导航栏')
-            ->description('description')
+            ->description('')
             ->body($this->detail($id));
     }
 
@@ -82,7 +82,7 @@ class NavigationChildController extends Controller
 
             $grid->title('标题');
             $grid->content('详情');
-            $grid->navigation_id('首级导航名称')->display(function ($id)
+            $grid->navigation_id('一级导航名称')->display(function ($id)
             {
                 return Navigation::where('id', $id)->first()->title;
             })->badge('green');
@@ -108,7 +108,7 @@ class NavigationChildController extends Controller
                 $filter->is('navigation_id', 1);
 
                 $typeList = Navigation::query()->pluck('title', 'id');
-                $filter->equal('navigation_id', '上一级导航条名称')->select($typeList);
+                $filter->equal('navigation_id', '一级导航名称')->select($typeList);
             });
         });
 
@@ -124,11 +124,10 @@ class NavigationChildController extends Controller
         $show = new Show(NavigationChild::findOrFail($id));
 
         $show->id('Id');
-        $show->navigation_id('Navigation id');
-        $show->title('Title');
-        $show->content('Content');
-        $show->created_at('Created at');
-        $show->updated_at('Updated at');
+        $show->title('标题');
+        $show->content('内容');
+        $show->created_at('创建时间');
+        $show->updated_at('更新时间');
 
         return $show;
     }
@@ -144,7 +143,7 @@ class NavigationChildController extends Controller
             $typeList = Navigation::query()->pluck('title', 'id');
             $form->select('navigation_id', '上一级导航条名称')->options($typeList);
             $form->text('title', '标题')->default('');
-            $form->text('content', '内容')->default('');
+            $form->textarea('content', '内容')->default('');
         });
 
     }
