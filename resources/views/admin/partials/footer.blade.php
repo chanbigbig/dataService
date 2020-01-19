@@ -5,5 +5,5 @@
         <!--<strong>Version</strong>&nbsp;&nbsp; {!! config('admin.version') !!}-->
     </div>
     <!-- Default to the left -->
-    <strong>Copyright &copy 2019 <a href="{!! config('app.APP_URL') !!}" target="_blank">运营管理</a> .</strong>
+    <strong>Copyright &copy 2020 <a href="{!! config('app.APP_URL') !!}" target="_blank">运营管理</a> .</strong>
 </footer>
