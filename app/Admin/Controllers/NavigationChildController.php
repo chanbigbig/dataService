@@ -24,8 +24,8 @@ class NavigationChildController extends Controller
     public function index(Content $content)
     {
         return $content
-            ->header('导航栏')
-            ->description('子级列表')
+            ->header('二级导航栏')
+            ->description('列表')
             ->body($this->grid());
     }
 
@@ -38,7 +38,7 @@ class NavigationChildController extends Controller
     public function show($id, Content $content)
     {
         return $content
-            ->header('导航栏')
+            ->header('二级导航栏')
             ->description('description')
             ->body($this->detail($id));
     }
@@ -52,7 +52,7 @@ class NavigationChildController extends Controller
     public function edit($id, Content $content)
     {
         return $content
-            ->header('编辑')
+            ->header('编辑二级导航栏')
             ->description('')
             ->body($this->form()->edit($id));
     }
@@ -65,7 +65,7 @@ class NavigationChildController extends Controller
     public function create(Content $content)
     {
         return $content
-            ->header('新建')
+            ->header('新建二级导航栏')
             ->description('')
             ->body($this->form());
     }
@@ -80,13 +80,13 @@ class NavigationChildController extends Controller
         {
             $grid->id('Id');
 
+            $grid->title('标题');
+            $grid->content('详情');
             $grid->navigation_id('首级导航名称')->display(function ($id)
             {
                 return Navigation::where('id', $id)->first()->title;
             })->badge('green');
 
-            $grid->title('标题');
-            $grid->content('详情');
             $grid->created_at('创建时间');
             $grid->updated_at('更新时间');
 
