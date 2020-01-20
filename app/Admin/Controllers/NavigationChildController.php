@@ -142,8 +142,8 @@ class NavigationChildController extends Controller
         {
             $typeList = Navigation::query()->pluck('title', 'id');
             $form->select('navigation_id', '上一级导航条名称')->options($typeList);
-            $form->text('title', '标题')->default('');
-            $form->textarea('content', '内容')->default('');
+            $form->text('title', '标题')->default('')->required();
+            $form->textarea('content', '内容')->default('null');
         });
 
     }

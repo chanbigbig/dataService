@@ -132,14 +132,14 @@ class NavigationController extends Controller
     {
         return Admin::form(Navigation::class, function (Form $form)
         {
-            $form->text('title', '标题内容')->default('');
-            $form->text('des', '描述')->default('');
-            $form->textarea('content', '详情')->default('');
+            $form->text('title', '标题内容')->default('')->rules('required');
+            $form->text('des', '描述')->value('null');
+            $form->textarea('content', '详情')->value('null');
+
             $states = [
                 'on' => ['value' => 1, 'text' => '发布', 'color' => 'primary'],
                 'off' => ['value' => 0, 'text' => '未发布', 'color' => 'default'],
             ];
-
             $form->switch('status', '发布状态')
                 ->states($states)->default(0);
             $form->tools(function (Form\Tools $tools)
