@@ -20,7 +20,7 @@ class NavigationController extends Controller
         $data = Navigation::query()
             ->where('status', 1)
             ->with('child')
-            ->get(['id', 'title', 'content']);
+            ->get(['id', 'title', 'des as description', 'content']);
         return $this->successData($data);
     }
 
