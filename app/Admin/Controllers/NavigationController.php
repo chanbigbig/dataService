@@ -79,6 +79,7 @@ class NavigationController extends Controller
 
         $grid->id('Id');
         $grid->title('标题内容')->limit(10);
+        $grid->des('描述');
         $grid->content('详情');
         $states = [
             'on' => ['value' => 1, 'text' => '发布', 'color' => 'primary'],
@@ -132,6 +133,7 @@ class NavigationController extends Controller
         return Admin::form(Navigation::class, function (Form $form)
         {
             $form->text('title', '标题内容')->default('');
+            $form->text('des', '描述')->default('');
             $form->textarea('content', '详情')->default('');
             $states = [
                 'on' => ['value' => 1, 'text' => '发布', 'color' => 'primary'],
