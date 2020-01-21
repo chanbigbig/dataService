@@ -25,6 +25,8 @@ Route::group(['middleware' => ['cors']], function ()
 
     Route::post('advise', 'HomePageController@advise');
 
+    //项目介绍
+    Route::get('course', 'CourseController@getItem');
     Route::get('course/list', 'CourseController@getList');
 
     Route::get('navigation/list', 'NavigationController@getList');

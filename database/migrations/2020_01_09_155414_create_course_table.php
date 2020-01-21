@@ -17,7 +17,7 @@ class CreateCourseTable extends Migration
             $table->increments('id');
             $table->string('img_url', 128)->default('')->comment('图片地址');
             $table->string('title')->default('')->comment('标题');
-            $table->string('content')->default('')->comment('内容');
+            $table->text('content')->default('')->comment('内容');
             $table->timestamps();
         });
     }

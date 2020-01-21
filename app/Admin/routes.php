@@ -20,4 +20,6 @@ Route::group([
     $router->resource('navigationbaby', 'NavigationChildController');
 
     $router->resource('headpicture', 'HeadPictureController');
+
+    $router->resource('course', 'CourseController');
 });

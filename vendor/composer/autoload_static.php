@@ -630,6 +630,7 @@ class ComposerStaticInit9730cb45def82035301408ea499ccd41
         'App\\Http\\Controllers\\Auth\\VerificationController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/VerificationController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\CourseController' => __DIR__ . '/../..' . '/app/Http/Controllers/CourseController.php',
+        'App\\Http\\Controllers\\HeadPictureController' => __DIR__ . '/../..' . '/app/Http/Controllers/HeadPictureController.php',
         'App\\Http\\Controllers\\HomePageController' => __DIR__ . '/../..' . '/app/Http/Controllers/HomePageController.php',
         'App\\Http\\Controllers\\IndexController' => __DIR__ . '/../..' . '/app/Http/Controllers/IndexController.php',
         'App\\Http\\Controllers\\NavigationController' => __DIR__ . '/../..' . '/app/Http/Controllers/NavigationController.php',
