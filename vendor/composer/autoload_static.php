@@ -33,9 +33,9 @@ class ComposerStaticInit9730cb45def82035301408ea499ccd41
         '58571171fd5812e6e447dce228f52f4d' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Support/helpers.php',
         '841780ea2e1d6545ea3a253239d59c05' => __DIR__ . '/..' . '/qiniu/php-sdk/src/Qiniu/functions.php',
         '34122c0574b76bf21c9a8db62b5b9cf3' => __DIR__ . '/..' . '/cakephp/chronos/src/carbon_compat.php',
+        '4e8671d7be9056dcd04ddd9e8e15f9cc' => __DIR__ . '/..' . '/encore/laravel-admin/src/helpers.php',
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         '801c31d8ed748cfa537fa45402288c95' => __DIR__ . '/..' . '/psy/psysh/src/functions.php',
-        '4e8671d7be9056dcd04ddd9e8e15f9cc' => __DIR__ . '/..' . '/encore/laravel-admin/src/helpers.php',
         'b4e3f29b106af37a2bb239f73cdf68c7' => __DIR__ . '/../..' . '/app/helpers.php',
     );
 
@@ -164,6 +164,7 @@ class ComposerStaticInit9730cb45def82035301408ea499ccd41
         ),
         'E' => 
         array (
+            'Encore\\Grid\\Lightbox\\' => 21,
             'Encore\\Admin\\' => 13,
             'Egulias\\EmailValidator\\' => 23,
         ),
@@ -477,6 +478,10 @@ class ComposerStaticInit9730cb45def82035301408ea499ccd41
         array (
             0 => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker',
         ),
+        'Encore\\Grid\\Lightbox\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/laravel-admin-ext/grid-lightbox/src',
+        ),
         'Encore\\Admin\\' => 
         array (
             0 => __DIR__ . '/..' . '/encore/laravel-admin/src',
@@ -601,6 +606,7 @@ class ComposerStaticInit9730cb45def82035301408ea499ccd41
     public static $classMap = array (
         'App\\Admin\\Controllers\\AuthController' => __DIR__ . '/../..' . '/app/Admin/Controllers/AuthController.php',
         'App\\Admin\\Controllers\\ExampleController' => __DIR__ . '/../..' . '/app/Admin/Controllers/ExampleController.php',
+        'App\\Admin\\Controllers\\HeadPictureController' => __DIR__ . '/../..' . '/app/Admin/Controllers/HeadPictureController.php',
         'App\\Admin\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Admin/Controllers/HomeController.php',
         'App\\Admin\\Controllers\\NavigationChildController' => __DIR__ . '/../..' . '/app/Admin/Controllers/NavigationChildController.php',
         'App\\Admin\\Controllers\\NavigationController' => __DIR__ . '/../..' . '/app/Admin/Controllers/NavigationController.php',
@@ -1586,6 +1592,10 @@ class ComposerStaticInit9730cb45def82035301408ea499ccd41
         'Encore\\Admin\\Widgets\\Tab' => __DIR__ . '/..' . '/encore/laravel-admin/src/Widgets/Tab.php',
         'Encore\\Admin\\Widgets\\Table' => __DIR__ . '/..' . '/encore/laravel-admin/src/Widgets/Table.php',
         'Encore\\Admin\\Widgets\\Widget' => __DIR__ . '/..' . '/encore/laravel-admin/src/Widgets/Widget.php',
+        'Encore\\Grid\\Lightbox\\GalleryDisplayer' => __DIR__ . '/..' . '/laravel-admin-ext/grid-lightbox/src/GalleryDisplayer.php',
+        'Encore\\Grid\\Lightbox\\Lightbox' => __DIR__ . '/..' . '/laravel-admin-ext/grid-lightbox/src/Lightbox.php',
+        'Encore\\Grid\\Lightbox\\LightboxDisplayer' => __DIR__ . '/..' . '/laravel-admin-ext/grid-lightbox/src/LightboxDisplayer.php',
+        'Encore\\Grid\\Lightbox\\LightboxServiceProvider' => __DIR__ . '/..' . '/laravel-admin-ext/grid-lightbox/src/LightboxServiceProvider.php',
         'Faker\\Calculator\\Ean' => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker/Calculator/Ean.php',
         'Faker\\Calculator\\Iban' => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker/Calculator/Iban.php',
         'Faker\\Calculator\\Inn' => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker/Calculator/Inn.php',

@@ -8,6 +8,7 @@ $baseDir = dirname($vendorDir);
 return array(
     'App\\Admin\\Controllers\\AuthController' => $baseDir . '/app/Admin/Controllers/AuthController.php',
     'App\\Admin\\Controllers\\ExampleController' => $baseDir . '/app/Admin/Controllers/ExampleController.php',
+    'App\\Admin\\Controllers\\HeadPictureController' => $baseDir . '/app/Admin/Controllers/HeadPictureController.php',
     'App\\Admin\\Controllers\\HomeController' => $baseDir . '/app/Admin/Controllers/HomeController.php',
     'App\\Admin\\Controllers\\NavigationChildController' => $baseDir . '/app/Admin/Controllers/NavigationChildController.php',
     'App\\Admin\\Controllers\\NavigationController' => $baseDir . '/app/Admin/Controllers/NavigationController.php',
@@ -993,6 +994,10 @@ return array(
     'Encore\\Admin\\Widgets\\Tab' => $vendorDir . '/encore/laravel-admin/src/Widgets/Tab.php',
     'Encore\\Admin\\Widgets\\Table' => $vendorDir . '/encore/laravel-admin/src/Widgets/Table.php',
     'Encore\\Admin\\Widgets\\Widget' => $vendorDir . '/encore/laravel-admin/src/Widgets/Widget.php',
+    'Encore\\Grid\\Lightbox\\GalleryDisplayer' => $vendorDir . '/laravel-admin-ext/grid-lightbox/src/GalleryDisplayer.php',
+    'Encore\\Grid\\Lightbox\\Lightbox' => $vendorDir . '/laravel-admin-ext/grid-lightbox/src/Lightbox.php',
+    'Encore\\Grid\\Lightbox\\LightboxDisplayer' => $vendorDir . '/laravel-admin-ext/grid-lightbox/src/LightboxDisplayer.php',
+    'Encore\\Grid\\Lightbox\\LightboxServiceProvider' => $vendorDir . '/laravel-admin-ext/grid-lightbox/src/LightboxServiceProvider.php',
     'Faker\\Calculator\\Ean' => $vendorDir . '/fzaninotto/faker/src/Faker/Calculator/Ean.php',
     'Faker\\Calculator\\Iban' => $vendorDir . '/fzaninotto/faker/src/Faker/Calculator/Iban.php',
     'Faker\\Calculator\\Inn' => $vendorDir . '/fzaninotto/faker/src/Faker/Calculator/Inn.php',

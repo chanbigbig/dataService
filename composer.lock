@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9b4705beef4a7906cb1d6a44198a053a",
+    "content-hash": "60746bf73099a1cda79d71834281e503",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1311,6 +1311,67 @@
             ],
             "description": "Update helper",
             "time": "2019-07-29T11:03:54+00:00"
+        },
+        {
+            "name": "laravel-admin-ext/grid-lightbox",
+            "version": "v1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel-admin-extensions/grid-lightbox.git",
+                "reference": "f8a247f0d017eb05830cc720fb621401b1bfbc2c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel-admin-extensions/grid-lightbox/zipball/f8a247f0d017eb05830cc720fb621401b1bfbc2c",
+                "reference": "f8a247f0d017eb05830cc720fb621401b1bfbc2c",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "encore/laravel-admin": "~1.6",
+                "php": ">=7.0.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~6.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Encore\\Grid\\Lightbox\\LightboxServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Encore\\Grid\\Lightbox\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "song",
+                    "email": "zosong@126.com"
+                }
+            ],
+            "description": "Turn your grid into a lightbox & gallery",
+            "homepage": "https://github.com/laravel-admin-ext/grid-lightbox",
+            "keywords": [
+                "extension",
+                "gallery",
+                "grid",
+                "laravel-admin",
+                "lightbox"
+            ],
+            "time": "2019-10-11T06:38:51+00:00"
         },
         {
             "name": "laravel/framework",
