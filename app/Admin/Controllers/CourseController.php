@@ -78,7 +78,7 @@ class CourseController extends Controller
 
         $grid->id('Id');
         $grid->title('标题');
-        $grid->img_url('图片')->gallery();
+        $grid->img_url('图片')->lightbox(['width' => 250, 'height' => 250]);
 //        $grid->img_url('图片');
         $grid->summary('摘要')->limit(15);
         $states = [
