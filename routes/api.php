@@ -28,4 +28,6 @@ Route::group(['middleware' => ['cors']], function ()
     Route::get('course/list', 'CourseController@getList');
 
     Route::get('navigation/list', 'NavigationController@getList');
+
+    Route::get('head/picture', 'HeadPictureController@getList');
 });

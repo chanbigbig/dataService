@@ -1,7 +1,4 @@
 <?php
-/**
- * Auther ZNY TEAM
- */
 
 namespace App\Http\Controllers;
 
