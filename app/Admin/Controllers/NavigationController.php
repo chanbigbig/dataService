@@ -99,7 +99,6 @@ class NavigationController extends Controller
         $grid->actions(function (Grid\Displayers\Actions $actions)
         {
             $actions->disableView();
-
             $actions->append('<a href="' . action('\App\Admin\Controllers\NavigationChildController@index', ['navigation_id' => $actions->row->id]) . '"><i class="fa fa-list" title="详情"></i></a>');
         });
 

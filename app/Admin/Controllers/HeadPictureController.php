@@ -139,6 +139,10 @@ class HeadPictureController extends Controller
         $typeList = Navigation::query()->pluck('title', 'id');
         $form->select('navigation_id', '导航条名称')->options($typeList);
 
+        $form->tools(function (Form\Tools $tools)
+        {
+            $tools->disableView();
+        });
         return $form;
     }
 }

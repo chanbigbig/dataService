@@ -4,9 +4,11 @@ namespace App\Models;
 
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Navigation extends Model
 {
+    use SoftDeletes;
     protected $connection = 'mysql';
     protected $table = 'navigation';
     protected $guarded = ['id'];
@@ -17,7 +19,8 @@ class Navigation extends Model
      */
     public function child()
     {
-        return $this->hasMany('App\Models\NavigationChild', 'navigation_id', 'id');
+        return $this->hasMany('App\Models\NavigationChild', 'navigation_id', 'id')
+            ->select('navigation_id', 'child_id', 'title');
     }
 
 }

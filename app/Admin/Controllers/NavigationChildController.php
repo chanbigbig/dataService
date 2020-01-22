@@ -92,6 +92,7 @@ class NavigationChildController extends Controller
 
             $grid->disableExport();
             $grid->disableRowSelector();
+            $grid->disableCreateButton();
             $grid->tools(function (Grid\Tools $tools)
             {
                 $tools->disableBatchActions();
@@ -100,6 +101,7 @@ class NavigationChildController extends Controller
             $grid->actions(function (Grid\Displayers\Actions $actions)
             {
                 $actions->disableView();
+                $actions->disableEdit();
             });
 
             $grid->filter(function ($filter)
