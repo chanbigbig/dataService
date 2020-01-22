@@ -17,7 +17,6 @@ class HeadPictureController extends Controller
 
     /**
      * Index interface.
-     *
      * @param Content $content
      * @return Content
      */
@@ -31,7 +30,6 @@ class HeadPictureController extends Controller
 
     /**
      * Show interface.
-     *
      * @param mixed $id
      * @param Content $content
      * @return Content
@@ -46,7 +44,6 @@ class HeadPictureController extends Controller
 
     /**
      * Edit interface.
-     *
      * @param mixed $id
      * @param Content $content
      * @return Content
@@ -61,7 +58,6 @@ class HeadPictureController extends Controller
 
     /**
      * Create interface.
-     *
      * @param Content $content
      * @return Content
      */
@@ -75,7 +71,6 @@ class HeadPictureController extends Controller
 
     /**
      * Make a grid builder.
-     *
      * @return Grid
      */
     protected function grid()
@@ -83,7 +78,7 @@ class HeadPictureController extends Controller
         $grid = new Grid(new HeadPicture);
 
         $grid->id('Id');
-        $grid->img_url('图片')->lightbox();
+        $grid->img_url('图片')->image(['width' => 250, 'height' => 250]);
         $grid->created_at('创建时间');
         $grid->updated_at('更新时间');
         $grid->navigation_id('类型')->display(function ($id)
@@ -115,7 +110,6 @@ class HeadPictureController extends Controller
 
     /**
      * Make a show builder.
-     *
      * @param mixed $id
      * @return Show
      */
@@ -135,7 +129,6 @@ class HeadPictureController extends Controller
 
     /**
      * Make a form builder.
-     *
      * @return Form
      */
     protected function form()
