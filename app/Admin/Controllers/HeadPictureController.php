@@ -141,7 +141,10 @@ class HeadPictureController extends Controller
     {
         $form = new Form(new HeadPicture);
 
-        $form->chunk_file('img_url', '图片');
+        $form->image('img_url', '图片')
+            ->uniqueName()
+            ->setQiniuDirectory('head_pic')
+            ->rules('image');
 
         $typeList = Navigation::query()->pluck('title', 'id');
         $form->select('navigation_id', '导航条名称')->options($typeList);
