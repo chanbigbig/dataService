@@ -139,17 +139,17 @@ class CourseController extends Controller
         $form->switch('is_show_homepage', '是否显示在导航')
             ->states($states)->default(0);
 
-        $form->text('title', '标题');
-        
+        $form->text('title', '标题')->required();
+
         $form->image('img_url', '图片')
             ->uniqueName()
             ->setQiniuDirectory('course')
             ->rules('image');
 
-        $form->textarea('summary', '摘要');
+        $form->textarea('summary', '摘要')->required();
 
 
-        $form->ueditor('content', '内容');
+        $form->ueditor('content', '内容')->help('编辑图片提示"本地保存成功",方可点击提交表单。');
 
         $form->tools(function (Form\Tools $tools)
         {
