@@ -141,7 +141,8 @@ class CourseController extends Controller
 
         $form->text('title', '标题');
 
-        $form->image('img_url', '图片');
+//        $form->image('img_url', '图片');
+        $form->chunk_file('img_url', '图片');
 
         $form->textarea('summary', '摘要');
 

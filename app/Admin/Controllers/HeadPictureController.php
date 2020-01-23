@@ -79,12 +79,13 @@ class HeadPictureController extends Controller
 
         $grid->id('Id');
         $grid->img_url('图片')->image(['width' => 250, 'height' => 250]);
-        $grid->created_at('创建时间');
-        $grid->updated_at('更新时间');
+
         $grid->navigation_id('类型')->display(function ($id)
         {
             return Navigation::where('id', $id)->first()->title;
         })->badge('green');
+        $grid->created_at('创建时间');
+        $grid->updated_at('更新时间');
         $grid->disableExport();
         $grid->disableRowSelector();
         $grid->tools(function (Grid\Tools $tools)
@@ -135,7 +136,8 @@ class HeadPictureController extends Controller
     {
         $form = new Form(new HeadPicture);
 
-        $form->image('img_url', '图片');
+        $form->chunk_file('img_url', '图片');
+
         $typeList = Navigation::query()->pluck('title', 'id');
         $form->select('navigation_id', '导航条名称')->options($typeList);
 

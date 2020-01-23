@@ -141,6 +141,7 @@ class NavigationController extends Controller
             ];
             $form->switch('status', '发布状态')
                 ->states($states)->default(0);
+
             $form->tools(function (Form\Tools $tools)
             {
                 $tools->disableView();

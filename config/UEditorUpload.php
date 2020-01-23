@@ -25,8 +25,8 @@ return [
 
         //七牛配置,若mode='qiniu',以下为必填.
         'qiniu' => [
-            'accessKey' => env('QINIU_ACCESSKEY', ''),
-            'secretKey' => env('QINIU_SECRETKEY', ''),
+            'accessKey' => env('QINIU_ACCESS_KEY', ''),
+            'secretKey' => env('QINIU_SECRET_KEY', ''),
             'bucket' => env('QINIU_DEFUALT_BUCKET', ''),
             'url' => env('QINIU_BASE_URL', ''),//七牛分配的CDN域名,注意带上http://
 

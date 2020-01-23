@@ -330,6 +330,69 @@
         ]
     },
     {
+        "name": "catlane/chunk-file-upload",
+        "version": "2.1",
+        "version_normalized": "2.1.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/catlane/chunk-file-upload.git",
+            "reference": "d1dadd226c3fa65cfba1ca1b3804e408fc7d77ae"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/catlane/chunk-file-upload/zipball/d1dadd226c3fa65cfba1ca1b3804e408fc7d77ae",
+            "reference": "d1dadd226c3fa65cfba1ca1b3804e408fc7d77ae",
+            "shasum": "",
+            "mirrors": [
+                {
+                    "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                    "preferred": true
+                }
+            ]
+        },
+        "require": {
+            "encore/laravel-admin": "~1.6",
+            "php": ">=7.0.0",
+            "qiniu/php-sdk": "^7.2"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "~6.0"
+        },
+        "time": "2019-10-08T09:42:16+00:00",
+        "type": "library",
+        "extra": {
+            "laravel": {
+                "providers": [
+                    "Encore\\ChunkFileUpload\\ChunkFileUploadServiceProvider"
+                ]
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Encore\\ChunkFileUpload\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "杨宇辉",
+                "email": "catlane@foxmail.com"
+            }
+        ],
+        "description": "文件上传小扩展，可支持大文件分块分片上传到七牛云or本地，优化您上传大文件的苦恼",
+        "homepage": "https://github.com/catlane/chunk-file-upload",
+        "keywords": [
+            "catlane",
+            "chunk_file",
+            "extension",
+            "laravel-admin"
+        ]
+    },
+    {
         "name": "composer/ca-bundle",
         "version": "1.2.6",
         "version_normalized": "1.2.6.0",
