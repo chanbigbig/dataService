@@ -78,12 +78,12 @@ class HeadPictureController extends Controller
         $grid = new Grid(new HeadPicture);
 
         $grid->id('Id');
-        //        $grid->img_url('图片')->image(['width' => 250, 'height' => 250]);
+        $grid->img_url('图片')->image(['width' => 250, 'height' => 250]);
 
-        $grid->img_url('图片')->display(function ($picture)
-        {
-            return json_decode($picture, true);
-        })->image('http://q3qnuwoq0.bkt.clouddn.com', 300);
+        //        $grid->img_url('图片')->display(function ($picture)
+        //        {
+        //            return json_decode($picture, true);
+        //        })->image('http://q3qnuwoq0.bkt.clouddn.com', 300);
 
         $grid->navigation_id('类型')->display(function ($id)
         {

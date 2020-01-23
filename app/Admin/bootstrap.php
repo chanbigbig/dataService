@@ -9,6 +9,8 @@ Encore\Admin\Form::forget(['map', 'editor']);
 
 Form::extend('ueditor', uEditor::class);
 
-Encore\Admin\Form::extend('chunk_file', \Encore\ChunkFileUpload\ChunkFileField::class);
 
 app('view')->prependNamespace('admin', resource_path('views/admin'));
+
+
+Encore\Admin\Form::extend('chunk_file', \Encore\ChunkFileUpload\ChunkFileField::class);
