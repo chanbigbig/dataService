@@ -140,9 +140,11 @@ class CourseController extends Controller
             ->states($states)->default(0);
 
         $form->text('title', '标题');
-
-//        $form->image('img_url', '图片');
-        $form->chunk_file('img_url', '图片');
+        
+        $form->image('img_url', '图片')
+            ->uniqueName()
+            ->setQiniuDirectory('course')
+            ->rules('image');
 
         $form->textarea('summary', '摘要');
 
