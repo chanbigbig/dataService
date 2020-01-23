@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use function foo\func;
 use Illuminate\Database\Eloquent\Model;
 
 class Course extends Model
@@ -16,6 +17,17 @@ class Course extends Model
     public static function boot()
     {
         parent::boot();
+
+        self::created(function ($model)
+        {
+            NavigationChild::firstOrCreate([
+                'child_table' => 'course',
+                'child_id' => $model->id
+            ], [
+                'navigation_id' => 2,
+                'title' => $model->title,
+            ]);
+        });
 
         //当更新时触发
         self::updated(function ($model)
@@ -40,12 +52,12 @@ class Course extends Model
 
         });
 
-        self::deleted(function ($model)
-        {
-            NavigationChild::query()
-                ->where('child_table', 'course')
-                ->where('child_id', $model->id)
-                ->delete();
-        });
+        //        self::deleted(function ($model)
+        //        {
+        //            NavigationChild::query()
+        //                ->where('child_table', 'course')
+        //                ->where('child_id', $model->id)
+        //                ->delete();
+        //        });
     }
 }
