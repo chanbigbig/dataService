@@ -31,7 +31,7 @@ return [
         'extensions' => 'jpg,png,mp4,jpeg',//后缀
         'mimeTypes' => 'image/*,video/*',//类型
         'fileSizeLimit' => 10737418240,//上传文件限制总大小，默认10G,默认单位为b
-        'fileNumLimit' => '1',//文件上传总数量
+//        'fileNumLimit' => '1',//文件上传总数量
         'saveType' => '', //单文件默认为字符串，多文件上传存储格式，json:['a.jpg','b.jpg']
     ]
 
