@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Course;
+use App\Models\HeadPicture;
 use Illuminate\Http\Request;
 
 class CourseController extends Controller
@@ -17,7 +18,17 @@ class CourseController extends Controller
         $data = Course::query()
             ->select(['id', 'title', 'summary', 'img_url'])
             ->paginate($request->get('per_page'));
-        return $this->successData($data);
+        $headPic = HeadPicture::query()
+            ->where('navigation_id', 2)
+            ->orderByDesc('id')
+            ->get()
+            ->pluck('img_url')
+            ->toArray();
+        $ret = [
+            'head_picture' => $headPic,
+            'data' => $data,
+        ];
+        return $this->successData($ret);
     }
 
     /**

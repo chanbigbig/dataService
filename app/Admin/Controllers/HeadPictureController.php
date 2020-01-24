@@ -37,8 +37,8 @@ class HeadPictureController extends Controller
     public function show($id, Content $content)
     {
         return $content
-            ->header('Detail')
-            ->description('description')
+            ->header('详情')
+            ->description('')
             ->body($this->detail($id));
     }
 
@@ -80,11 +80,6 @@ class HeadPictureController extends Controller
         $grid->id('Id');
         $grid->img_url('图片')->image(['width' => 250, 'height' => 250]);
 
-        //        $grid->img_url('图片')->display(function ($picture)
-        //        {
-        //            return json_decode($picture, true);
-        //        })->image('http://q3qnuwoq0.bkt.clouddn.com', 300);
-
         $grid->navigation_id('类型')->display(function ($id)
         {
             return Navigation::where('id', $id)->first()->title;
@@ -98,10 +93,10 @@ class HeadPictureController extends Controller
             $tools->disableBatchActions();
         });
 
-        $grid->actions(function (Grid\Displayers\Actions $actions)
-        {
-            $actions->disableView();
-        });
+//        $grid->actions(function (Grid\Displayers\Actions $actions)
+//        {
+//            $actions->disableView();
+//        });
 
         $grid->filter(function ($filter)
         {
