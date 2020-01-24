@@ -15,10 +15,17 @@ class CourseController extends Controller
      */
     public function getList(Request $request)
     {
-        $data = Course::query()
+        $ret['data'] = Course::query()
             ->select(['id', 'title', 'summary', 'img_url'])
             ->paginate($request->get('per_page'));
-        return $this->successData($data);
+        $ret['head_pic'] = HeadPicture::query()
+            ->where('navigation_id', 2)
+            ->orderByDesc('id')
+            ->limit(5)
+            ->get()
+            ->pluck('img_url')
+            ->toArray();
+        return $this->successData($ret);
     }
 
     /**

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Advises;
+use App\Models\Course;
 use App\Models\HeadPicture;
 use App\Models\HomeBespockContent;
 use App\Models\HomeHistory;
@@ -29,6 +30,11 @@ class HomePageController extends Controller
 
         $data['home_bespock'] = HomeBespockContent::query()->orderByDesc('id')->first();
 
+        $data['course_list'] =  Course::query()
+            ->select(['id', 'title', 'summary', 'img_url'])
+            ->orderByDesc('id')
+            ->limit(4)
+            ->get();
         $media = HomeShowMedia::query()->orderByDesc('id')->first();
         $data['home_show_media']['img_url'] = $media->url . "?vframe/jpg/offset/1";
         $data['home_show_media']['vedio_url'] = $media->url;
