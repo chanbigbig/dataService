@@ -18,17 +18,7 @@ class CourseController extends Controller
         $data = Course::query()
             ->select(['id', 'title', 'summary', 'img_url'])
             ->paginate($request->get('per_page'));
-        $headPic = HeadPicture::query()
-            ->where('navigation_id', 2)
-            ->orderByDesc('id')
-            ->get()
-            ->pluck('img_url')
-            ->toArray();
-        $ret = [
-            'head_picture' => $headPic,
-            'data' => $data,
-        ];
-        return $this->successData($ret);
+        return $this->successData($data);
     }
 
     /**
