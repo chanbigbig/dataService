@@ -25,4 +25,5 @@ Route::group([
 
     $router->resource('homehistory', 'HomeHistoryController');
 
+    $router->resource('homebespock', 'HomeBespockController');
 });
