@@ -22,4 +22,7 @@ Route::group([
     $router->resource('headpicture', 'HeadPictureController');
 
     $router->resource('course', 'CourseController');
+
+    $router->resource('homehistory', 'HomeHistoryController');
+
 });
