@@ -78,7 +78,7 @@ class HeadPictureController extends Controller
         $grid = new Grid(new HeadPicture);
 
         $grid->id('Id');
-        $grid->img_url('图片')->image(['width' => 250, 'height' => 250]);
+        $grid->img_url('图片')->lightbox(['width' => 250, 'height' => 250]);
 
         $grid->navigation_id('类型')->display(function ($id)
         {
@@ -93,10 +93,10 @@ class HeadPictureController extends Controller
             $tools->disableBatchActions();
         });
 
-//        $grid->actions(function (Grid\Displayers\Actions $actions)
-//        {
-//            $actions->disableView();
-//        });
+        $grid->actions(function (Grid\Displayers\Actions $actions)
+        {
+            $actions->disableView();
+        });
 
         $grid->filter(function ($filter)
         {
@@ -119,12 +119,13 @@ class HeadPictureController extends Controller
         $show = new Show(HeadPicture::findOrFail($id));
 
         $show->id('Id');
-        $show->type('Type');
-        $show->img_url('Img url');
-        $show->created_at('Created at');
-        $show->updated_at('Updated at');
-        $show->navigation_id('Navigation id');
-
+        $show->img_url('图片')->image();
+        $show->created_at('创建时间');
+        $show->updated_at('更新时间');
+        $show->navigation_id('类型')->display(function ($id)
+        {
+            return Navigation::where('id', $id)->first()->title;
+        })->badge('green');
         return $show;
     }
 

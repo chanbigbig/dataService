@@ -139,8 +139,8 @@ class CourseController extends Controller
         $form->switch('is_show_homepage', '是否显示在导航')
             ->states($states)->default(0);
 
-        $form->text('title', '标题');
-        //            ->rules('required','请您输入标题。');
+        $form->text('title', '标题')->required();
+//        ->rules('required', '请您输入标题。');
 
         $form->image('img_url', '图片')
             ->uniqueName()
