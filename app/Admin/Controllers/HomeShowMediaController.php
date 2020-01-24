@@ -82,7 +82,7 @@ class HomeShowMediaController extends Controller
         $grid = new Grid(new HomeShowMedia);
 
         $grid->id('Id');
-        $grid->file('url','视频');
+        $grid->url('视频');
         $grid->image('Img url','封面');
         $grid->created_at('创建时间');
         $grid->updated_at('更新时间');
