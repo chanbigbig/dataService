@@ -19,13 +19,15 @@ class Team extends Model
 
         self::created(function ($model)
         {
-            NavigationChild::firstOrCreate([
-                'child_table' => 'team',
-                'child_id' => $model->id
-            ], [
-                'navigation_id' => 4,
-                'title' => $model->title,
-            ]);
+            if ($model->is_show_homepage == 1) {
+                NavigationChild::firstOrCreate([
+                    'child_table' => 'team',
+                    'child_id' => $model->id
+                ], [
+                    'navigation_id' => 4,
+                    'title' => $model->name,
+                ]);
+            }
         });
 
         //当更新时触发

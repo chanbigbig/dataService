@@ -20,13 +20,15 @@ class HistoryCourse extends Model
 
         self::created(function ($model)
         {
-            NavigationChild::firstOrCreate([
-                'child_table' => 'course',
-                'child_id' => $model->id
-            ], [
-                'navigation_id' => 3,
-                'title' => $model->title,
-            ]);
+            if ($model->is_show_homepage == 1) {
+                NavigationChild::firstOrCreate([
+                    'child_table' => 'course',
+                    'child_id' => $model->id
+                ], [
+                    'navigation_id' => 3,
+                    'title' => $model->title,
+                ]);
+            }
         });
 
         //当更新时触发

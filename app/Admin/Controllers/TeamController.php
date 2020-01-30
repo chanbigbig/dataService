@@ -78,8 +78,8 @@ class TeamController extends Controller
 
         $grid->id('Id');
         $grid->name('名称');
-        $grid->img_url('图片')->image();
-        $grid->summary('摘要')->limit(15);
+        $grid->img_url('图片')->image(['width' => 250, 'height' => 250]);
+        $grid->summary('描述');
         $states = [
             'on' => ['value' => 1, 'text' => '显示', 'color' => 'primary'],
             'off' => ['value' => 0, 'text' => '不显示', 'color' => 'default'],
