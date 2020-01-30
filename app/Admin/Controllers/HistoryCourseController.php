@@ -100,6 +100,12 @@ class HistoryCourseController extends Controller
             $actions->disableView();
         });
 
+        $grid->filter(function (\Encore\Admin\Grid\Filter $filter)
+        {
+            $filter->like('title', '标题')->placeholder('请输入标题内容.');
+            $filter->like('summary', '描述')->placeholder('请输入描述内容.');
+        });
+
         return $grid;
     }
 

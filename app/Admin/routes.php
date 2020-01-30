@@ -26,10 +26,16 @@ Route::group([
     $router->resource('history/course', 'HistoryCourseController');
     //团队介绍
     $router->resource('team', 'TeamController');
+    //研学须知
+    $router->resource('needknow', 'NeedKnowController');
+    //合作
+    $router->resource('cooperation', 'CooperationController');
+    //关于我们
+    $router->resource('about', 'AboutController');
 
+
+    //首页管理
     $router->resource('homehistory', 'HomeHistoryController');
-
     $router->resource('homebespock', 'HomeBespockController');
-
     $router->resource('homemedia', 'HomeShowMediaController');
 });

@@ -100,6 +100,12 @@ class TeamController extends Controller
             $actions->disableView();
         });
 
+        $grid->filter(function (\Encore\Admin\Grid\Filter $filter)
+        {
+            $filter->like('name', '名称')->placeholder('请输入名称内容.');
+            $filter->like('summary', '描述')->placeholder('请输入描述内容.');
+        });
+
         return $grid;
     }
 
