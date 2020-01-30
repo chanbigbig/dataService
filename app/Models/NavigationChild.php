@@ -26,7 +26,6 @@ class NavigationChild extends Model
                 DB::table($model->child_table)
                     ->where('id', $model->child_id)
                     ->update(['is_show_homepage' => 0]);
-
             }
         });
     }

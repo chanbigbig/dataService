@@ -20,10 +20,12 @@ Route::group([
     $router->resource('navigationbaby', 'NavigationChildController');
 
     $router->resource('headpicture', 'HeadPictureController');
-
+    //项目介绍
     $router->resource('course', 'CourseController');
-
+    //以往案例
     $router->resource('history/course', 'HistoryCourseController');
+    //团队介绍
+    $router->resource('team', 'TeamController');
 
     $router->resource('homehistory', 'HomeHistoryController');
 

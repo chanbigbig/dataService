@@ -35,5 +35,7 @@ Route::group(['middleware' => ['cors']], function ()
     //以为案例
     Route::get('historycourse', 'HistoryCourseController@getItem');
     Route::get('historycourse/list', 'HistoryCourseController@getList');
-
+    //团队介绍
+    Route::get('team', 'TeamController@getItem');
+    Route::get('team/list', 'TeamController@getList');
 });

@@ -13,8 +13,8 @@ class HomeController extends Controller
     public function index(Content $content)
     {
         return $content
-            ->header('官网管理后台')
-            ->description('首页')
+            ->header('欢迎登陆')
+            ->description('')
             ->row(view('admin::home'));
         //            ->row(function (Row $row) {
         //

@@ -52,12 +52,12 @@ class HistoryCourse extends Model
 
         });
 
-        //        self::deleted(function ($model)
-        //        {
-        //            NavigationChild::query()
-        //                ->where('child_table', 'course')
-        //                ->where('child_id', $model->id)
-        //                ->delete();
-        //        });
+        self::deleted(function ($model)
+        {
+            NavigationChild::query()
+                ->where('child_table', 'history_course')
+                ->where('child_id', $model->id)
+                ->delete();
+        });
     }
 }

@@ -2,13 +2,12 @@
 
 namespace App\Models;
 
-use function foo\func;
 use Illuminate\Database\Eloquent\Model;
 
-class Course extends Model
+class Team extends Model
 {
     protected $connection = 'mysql';
-    protected $table = 'course';
+    protected $table = 'team';
     protected $guarded = ['id'];
 
     /**
@@ -21,10 +20,10 @@ class Course extends Model
         self::created(function ($model)
         {
             NavigationChild::firstOrCreate([
-                'child_table' => 'course',
+                'child_table' => 'team',
                 'child_id' => $model->id
             ], [
-                'navigation_id' => 2,
+                'navigation_id' => 4,
                 'title' => $model->title,
             ]);
         });
@@ -35,17 +34,17 @@ class Course extends Model
             //关闭
             if ($model->is_show_homepage == 0) {
                 NavigationChild::query()
-                    ->where('child_table', 'course')
+                    ->where('child_table', 'team')
                     ->where('child_id', $model->id)
                     ->delete();
             }
             //开启
             if ($model->is_show_homepage == 1) {
                 NavigationChild::firstOrCreate([
-                    'child_table' => 'course',
+                    'child_table' => 'team',
                     'child_id' => $model->id
                 ], [
-                    'navigation_id' => 2,
+                    'navigation_id' => 4,
                     'title' => $model->title,
                 ]);
             }
@@ -55,7 +54,7 @@ class Course extends Model
         self::deleted(function ($model)
         {
             NavigationChild::query()
-                ->where('child_table', 'course')
+                ->where('child_table', 'team')
                 ->where('child_id', $model->id)
                 ->delete();
         });
