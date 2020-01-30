@@ -24,12 +24,16 @@ Route::group(['middleware' => ['cors']], function ()
     Route::get('homepage', 'HomePageController@getHomepageData');
 
     Route::post('advise', 'HomePageController@advise');
+    //导航栏
+    Route::get('navigation/list', 'NavigationController@getList');
+    //顶部图片
+    Route::get('head/picture', 'HeadPictureController@getList');
 
     //项目介绍
     Route::get('course', 'CourseController@getItem');
     Route::get('course/list', 'CourseController@getList');
+    //以为案例
+    Route::get('historycourse', 'HistoryCourseController@getItem');
+    Route::get('historycourse/list', 'HistoryCourseController@getList');
 
-    Route::get('navigation/list', 'NavigationController@getList');
-
-    Route::get('head/picture', 'HeadPictureController@getList');
 });

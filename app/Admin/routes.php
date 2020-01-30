@@ -23,6 +23,8 @@ Route::group([
 
     $router->resource('course', 'CourseController');
 
+    $router->resource('history/course', 'HistoryCourseController');
+
     $router->resource('homehistory', 'HomeHistoryController');
 
     $router->resource('homebespock', 'HomeBespockController');

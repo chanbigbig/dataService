@@ -616,6 +616,7 @@ class ComposerStaticInit9730cb45def82035301408ea499ccd41
         'App\\Admin\\Controllers\\HomeBespockController' => __DIR__ . '/../..' . '/app/Admin/Controllers/HomeBespockController.php',
         'App\\Admin\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Admin/Controllers/HomeController.php',
         'App\\Admin\\Controllers\\HomeHistoryController' => __DIR__ . '/../..' . '/app/Admin/Controllers/HomeHistoryController.php',
+        'App\\Admin\\Controllers\\HomeShowMediaController' => __DIR__ . '/../..' . '/app/Admin/Controllers/HomeShowMediaController.php',
         'App\\Admin\\Controllers\\NavigationChildController' => __DIR__ . '/../..' . '/app/Admin/Controllers/NavigationChildController.php',
         'App\\Admin\\Controllers\\NavigationController' => __DIR__ . '/../..' . '/app/Admin/Controllers/NavigationController.php',
         'App\\Admin\\Controllers\\OrderController' => __DIR__ . '/../..' . '/app/Admin/Controllers/OrderController.php',

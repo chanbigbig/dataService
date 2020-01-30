@@ -13,6 +13,7 @@ return array(
     'App\\Admin\\Controllers\\HomeBespockController' => $baseDir . '/app/Admin/Controllers/HomeBespockController.php',
     'App\\Admin\\Controllers\\HomeController' => $baseDir . '/app/Admin/Controllers/HomeController.php',
     'App\\Admin\\Controllers\\HomeHistoryController' => $baseDir . '/app/Admin/Controllers/HomeHistoryController.php',
+    'App\\Admin\\Controllers\\HomeShowMediaController' => $baseDir . '/app/Admin/Controllers/HomeShowMediaController.php',
     'App\\Admin\\Controllers\\NavigationChildController' => $baseDir . '/app/Admin/Controllers/NavigationChildController.php',
     'App\\Admin\\Controllers\\NavigationController' => $baseDir . '/app/Admin/Controllers/NavigationController.php',
     'App\\Admin\\Controllers\\OrderController' => $baseDir . '/app/Admin/Controllers/OrderController.php',
