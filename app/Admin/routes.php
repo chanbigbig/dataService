@@ -33,6 +33,10 @@ Route::group([
     //关于我们
     $router->resource('about', 'AboutController');
 
+    //底部导航栏
+    $router->resource('tabbar', 'TabbarController');
+    //加入我们
+    $router->resource('advise', 'AdviseController');
 
     //首页管理
     $router->resource('homehistory', 'HomeHistoryController');
