@@ -32,16 +32,21 @@ Route::group(['middleware' => ['cors']], function ()
     //项目介绍
     Route::get('course', 'CourseController@getItem');
     Route::get('course/list', 'CourseController@getList');
+
     //以为案例
     Route::get('historycourse', 'HistoryCourseController@getItem');
     Route::get('historycourse/list', 'HistoryCourseController@getList');
+
     //团队介绍
     Route::get('team', 'TeamController@getItem');
     Route::get('team/list', 'TeamController@getList');
+
     //研学须知
     Route::get('needknow', 'NeedKnowController@getItem');
+
     //合作
     Route::get('cooperation', 'CooperationController@getItem');
+
     //关于我们
     Route::get('about', 'AboutController@getItem');
 });

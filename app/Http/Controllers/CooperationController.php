@@ -6,7 +6,7 @@ namespace App\Http\Controllers;
 use App\Models\Cooperation;
 use Illuminate\Http\Request;
 
-class NeedKnowController extends Controller
+class CooperationController extends Controller
 {
 
     /**
