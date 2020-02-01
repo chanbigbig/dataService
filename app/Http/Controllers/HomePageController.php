@@ -41,6 +41,10 @@ class HomePageController extends Controller
             ->orderByDesc('id')->first();
         if ($media) {
             $data['home_show_media'] = $media->toArray();
+            $search = ["\r\n", "\r", "\n"];
+            $replace = '<br/>';
+            $replaceResult = str_replace($search, $replace, $data['home_show_media']['problem']);
+            $data['home_show_media']['problem'] = $replaceResult;
         }
         if (!is_null($media->img_url) && strlen(trim($media->img_url)) > 0) {
             $data['home_show_media']['img_url'] = $media->img_url;
