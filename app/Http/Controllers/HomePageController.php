@@ -19,7 +19,7 @@ class HomePageController extends Controller
     public function getHomepageData()
     {
         $data['head_urls'] = HeadPicture::query()
-            ->where('type', 0)
+            ->where('navigation_id', 1)
             ->orderByDesc('id')
             ->limit(5)
             ->get()
