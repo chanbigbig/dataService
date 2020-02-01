@@ -148,6 +148,7 @@ class TabbarController extends Controller
             ->rules('image');
 
         $form->text('mini_program_url_remark', '二维码备注');
+        $form->textarea('remark', '底部导航栏备注');
         return $form;
     }
 }
