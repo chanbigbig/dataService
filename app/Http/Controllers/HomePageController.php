@@ -42,7 +42,7 @@ class HomePageController extends Controller
         if ($media) {
             $data['home_show_media'] = $media->toArray();
             $search = ["\r\n", "\r", "\n"];
-            $replace = '<br />';
+            $replace = "<br />";
             $replaceResult = str_replace($search, $replace, $data['home_show_media']['problem']);
             $data['home_show_media']['problem'] = $replaceResult;
         }
