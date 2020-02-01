@@ -16,7 +16,6 @@ class TabbarController extends Controller
 
     /**
      * Index interface.
-     *
      * @param Content $content
      * @return Content
      */
@@ -30,7 +29,6 @@ class TabbarController extends Controller
 
     /**
      * Show interface.
-     *
      * @param mixed $id
      * @param Content $content
      * @return Content
@@ -45,7 +43,6 @@ class TabbarController extends Controller
 
     /**
      * Edit interface.
-     *
      * @param mixed $id
      * @param Content $content
      * @return Content
@@ -60,7 +57,6 @@ class TabbarController extends Controller
 
     /**
      * Create interface.
-     *
      * @param Content $content
      * @return Content
      */
@@ -74,7 +70,6 @@ class TabbarController extends Controller
 
     /**
      * Make a grid builder.
-     *
      * @return Grid
      */
     protected function grid()
@@ -84,9 +79,9 @@ class TabbarController extends Controller
         $grid->id('Id');
         $grid->service_mobile('服务电话');
         $grid->service_time('服务时间');
-        $grid->usa_mobile('美国电话');
-        $grid->shanghai_mobile('上海电话');
-        $grid->guangzhou_mobile('广州电话');
+        $grid->mobile1('联系方式一');
+        $grid->mobile2('联系方式二');
+        $grid->mobile3('联系方式三');
         $grid->email('Email');
         $grid->address('地址');
         $grid->mini_program_url('二维码')->image(['width' => 250, 'height' => 250]);
@@ -110,7 +105,6 @@ class TabbarController extends Controller
 
     /**
      * Make a show builder.
-     *
      * @param mixed $id
      * @return Show
      */
@@ -135,7 +129,6 @@ class TabbarController extends Controller
 
     /**
      * Make a form builder.
-     *
      * @return Form
      */
     protected function form()
@@ -144,15 +137,17 @@ class TabbarController extends Controller
 
         $form->text('service_mobile', '服务电话');
         $form->text('service_time', '服务时间');
-        $form->text('usa_mobile', '美国电话');
-        $form->text('shanghai_mobile', '上海电话');
-        $form->text('guangzhou_mobile', '广州电话');
-        $form->email('email', 'Email');
+        $form->text('mobile1', '联系方式一');
+        $form->text('mobile2', '联系方式二');
+        $form->text('mobile3', '联系方式三');
+        $form->email('email', '邮件');
         $form->textarea('address', '地址');
         $form->image('mini_program_url', '二维码')
             ->uniqueName()
             ->setQiniuDirectory('tabbar')
             ->rules('image');
+
+        $form->text('mini_program_url_remark', '二维码备注');
         return $form;
     }
 }
