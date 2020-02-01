@@ -42,10 +42,10 @@ class HomePageController extends Controller
         if ($media) {
             $data['home_show_media'] = $media->toArray();
         }
-        if (!is_null($media->img_url)) {
+        if (!is_null($media->img_url) && strlen(trim($media->img_url)) > 0) {
             $data['home_show_media']['img_url'] = $media->img_url;
         } else {
-            $data['home_show_media']['img_url'] = $media->url . "?vframe/jpg/offset/1";
+            $data['home_show_media']['img_url'] = $media->vedio_url . "?vframe/jpg/offset/1";
         }
 
         return $this->successData($data);
