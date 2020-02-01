@@ -30,14 +30,23 @@ class HomePageController extends Controller
 
         $data['home_bespock'] = HomeBespockContent::query()->orderByDesc('id')->first();
 
-        $data['course_list'] =  Course::query()
+        $data['course_list'] = Course::query()
             ->select(['id', 'title', 'summary', 'img_url'])
             ->orderByDesc('id')
             ->limit(4)
             ->get();
-        $media = HomeShowMedia::query()->orderByDesc('id')->first();
-        $data['home_show_media']['img_url'] = $media->url . "?vframe/jpg/offset/1";
-        $data['home_show_media']['vedio_url'] = $media->url;
+
+        $media = HomeShowMedia::query()
+            ->select(['show_media_url', 'problem', 'url as vedio_url', 'img_url'])
+            ->orderByDesc('id')->first();
+        if ($media) {
+            $data['home_show_media'] = $media->toArray();
+        }
+        if (!is_null($media->img_url)) {
+            $data['home_show_media']['img_url'] = $media->img_url;
+        } else {
+            $data['home_show_media']['img_url'] = $media->url . "?vframe/jpg/offset/1";
+        }
 
         return $this->successData($data);
     }

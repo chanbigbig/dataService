@@ -16,21 +16,19 @@ class HomeShowMediaController extends Controller
 
     /**
      * Index interface.
-     *
      * @param Content $content
      * @return Content
      */
     public function index(Content $content)
     {
         return $content
-            ->header('首页视频')
+            ->header('首页媒体视频')
             ->description('')
             ->body($this->grid());
     }
 
     /**
      * Show interface.
-     *
      * @param mixed $id
      * @param Content $content
      * @return Content
@@ -45,7 +43,6 @@ class HomeShowMediaController extends Controller
 
     /**
      * Edit interface.
-     *
      * @param mixed $id
      * @param Content $content
      * @return Content
@@ -60,7 +57,6 @@ class HomeShowMediaController extends Controller
 
     /**
      * Create interface.
-     *
      * @param Content $content
      * @return Content
      */
@@ -74,7 +70,6 @@ class HomeShowMediaController extends Controller
 
     /**
      * Make a grid builder.
-     *
      * @return Grid
      */
     protected function grid()
@@ -83,7 +78,9 @@ class HomeShowMediaController extends Controller
 
         $grid->id('Id');
         $grid->url('视频');
-        $grid->image('Img url','封面');
+        $grid->img_url('视频封面')->image(['width' => 250, 'height' => 250]);
+        $grid->problem('问题');
+        $grid->show_media_url('媒体图片')->image();
         $grid->created_at('创建时间');
         $grid->updated_at('更新时间');
 
@@ -104,7 +101,6 @@ class HomeShowMediaController extends Controller
 
     /**
      * Make a show builder.
-     *
      * @param mixed $id
      * @return Show
      */
@@ -123,15 +119,18 @@ class HomeShowMediaController extends Controller
 
     /**
      * Make a form builder.
-     *
      * @return Form
      */
     protected function form()
     {
         $form = new Form(new HomeShowMedia);
-
+        $form->image('show_media_url', '媒体图片')
+            ->uniqueName()
+            ->setQiniuDirectory('home_media_image')
+            ->rules('image');
+        $form->textarea('problem');
         $form->url('url', '视频地址');
-        $form->image('img_url', '封面')
+        $form->image('img_url', '视频封面')
             ->uniqueName()
             ->setQiniuDirectory('home_media_image')
             ->rules('image')
