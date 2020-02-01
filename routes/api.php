@@ -24,8 +24,10 @@ Route::group(['middleware' => ['cors']], function ()
     Route::get('homepage', 'HomePageController@getHomepageData');
 
     Route::post('advise', 'HomePageController@advise');
-    //导航栏
+    //顶部导航栏
     Route::get('navigation/list', 'NavigationController@getList');
+    //底部导航栏
+    Route::get('tabbar', 'TabbarController@getItem');
     //顶部图片
     Route::get('head/picture', 'HeadPictureController@getList');
 
@@ -46,6 +48,7 @@ Route::group(['middleware' => ['cors']], function ()
 
     //合作
     Route::get('cooperation', 'CooperationController@getItem');
+
 
     //关于我们
     Route::get('about', 'AboutController@getItem');
