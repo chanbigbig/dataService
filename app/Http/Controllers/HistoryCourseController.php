@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 
+use App\Constant\Navigation;
+use App\Models\FootPicture;
 use App\Models\HeadPicture;
 use App\Models\HistoryCourse;
 use Illuminate\Http\Request;
@@ -15,9 +17,7 @@ class HistoryCourseController extends Controller
      */
     public function getList(Request $request)
     {
-        $ret['data'] = HistoryCourse::query()
-            ->select(['id', 'title', 'summary', 'img_url'])
-            ->paginate($request->get('per_page'));
+
         $ret['head_pic'] = HeadPicture::query()
             ->where('navigation_id', 3)
             ->orderByDesc('id')
@@ -25,6 +25,17 @@ class HistoryCourseController extends Controller
             ->get()
             ->pluck('img_url')
             ->toArray();
+
+        $ret['data'] = HistoryCourse::query()
+            ->select(['id', 'title', 'summary', 'img_url'])
+            ->paginate($request->get('per_page'));
+
+        $ret['foot_pic'] = FootPicture::query()
+            ->select(['img_url', 'remark'])
+            ->orderBy('id')
+            ->where('navigation_id', Navigation::OLD_COURSE)
+            ->get();
+
         return $this->successData($ret);
     }
 

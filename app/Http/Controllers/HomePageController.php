@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 
+use App\Constant\Navigation;
 use App\Models\Advises;
 use App\Models\Course;
+use App\Models\FootPicture;
 use App\Models\HeadPicture;
 use App\Models\HomeBespockContent;
 use App\Models\HomeHistory;
@@ -19,7 +21,7 @@ class HomePageController extends Controller
     public function getHomepageData()
     {
         $data['head_urls'] = HeadPicture::query()
-            ->where('navigation_id', 1)
+            ->where('navigation_id', Navigation::HOME_PAGE)
             ->orderByDesc('id')
             ->limit(5)
             ->get()
@@ -34,6 +36,12 @@ class HomePageController extends Controller
             ->select(['id', 'title', 'summary', 'img_url'])
             ->orderByDesc('id')
             ->limit(4)
+            ->get();
+
+        $data['foot_pic'] = FootPicture::query()
+            ->select(['img_url', "remark"])
+            ->orderBy('id')
+            ->where('navigation_id', Navigation::HOME_PAGE)
             ->get();
 
         $media = HomeShowMedia::query()

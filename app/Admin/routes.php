@@ -35,6 +35,7 @@ Route::group([
 
     //底部导航栏
     $router->resource('tabbar', 'TabbarController');
+
     //加入我们
     $router->resource('advise', 'AdviseController');
 
@@ -42,4 +43,7 @@ Route::group([
     $router->resource('homehistory', 'HomeHistoryController');
     $router->resource('homebespock', 'HomeBespockController');
     $router->resource('homemedia', 'HomeShowMediaController');
+
+    //底部图片
+    $router->resource('footpic', 'FootPicController');
 });
