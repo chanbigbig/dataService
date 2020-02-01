@@ -7,6 +7,7 @@ use App\Constant\Navigation;
 use App\Models\About;
 use App\Models\FootPicture;
 use App\Models\HeadPicture;
+use App\Models\HomeBespockContent;
 use Illuminate\Http\Request;
 
 class AboutController extends Controller
@@ -25,6 +26,11 @@ class AboutController extends Controller
             ->get()
             ->pluck('img_url')
             ->toArray();
+
+        $data['home_bespock'] = HomeBespockContent::query()
+            ->where('navigation_id', Navigation::ABOUT_US)
+            ->orderByDesc('id')->first();
+
         $data['content'] = About::query()->orderByDesc('id')->first();
 
         $data['foot_pic'] = FootPicture::query()

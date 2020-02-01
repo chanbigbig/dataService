@@ -7,6 +7,7 @@ use App\Constant\Navigation;
 use App\Models\Cooperation;
 use App\Models\FootPicture;
 use App\Models\HeadPicture;
+use App\Models\HomeBespockContent;
 use Illuminate\Http\Request;
 
 class CooperationController extends Controller
@@ -25,6 +26,10 @@ class CooperationController extends Controller
             ->get()
             ->pluck('img_url')
             ->toArray();
+        $data['home_bespock'] = HomeBespockContent::query()
+            ->where('navigation_id', Navigation::COOPERATION)
+            ->orderByDesc('id')->first();
+
         $data['content'] = Cooperation::query()->orderByDesc('id')->first();
 
         $data['foot_pic'] = FootPicture::query()

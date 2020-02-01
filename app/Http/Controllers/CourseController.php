@@ -7,6 +7,7 @@ use App\Constant\Navigation;
 use App\Models\Course;
 use App\Models\FootPicture;
 use App\Models\HeadPicture;
+use App\Models\HomeBespockContent;
 use Illuminate\Http\Request;
 
 class CourseController extends Controller
@@ -24,6 +25,10 @@ class CourseController extends Controller
             ->get()
             ->pluck('img_url')
             ->toArray();
+
+        $ret['home_bespock'] = HomeBespockContent::query()
+            ->where('navigation_id', Navigation::COURSE)
+            ->orderByDesc('id')->first();
 
         $ret['data'] = Course::query()
             ->select(['id', 'title', 'summary', 'img_url'])

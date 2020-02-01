@@ -30,7 +30,9 @@ class HomePageController extends Controller
 
         $data['home_history'] = HomeHistory::query()->limit(5)->get()->toArray();
 
-        $data['home_bespock'] = HomeBespockContent::query()->orderByDesc('id')->first();
+        $data['home_bespock'] = HomeBespockContent::query()
+            ->where('navigation_id', Navigation::HOME_PAGE)
+            ->orderByDesc('id')->first();
 
         $data['course_list'] = Course::query()
             ->select(['id', 'title', 'summary', 'img_url'])

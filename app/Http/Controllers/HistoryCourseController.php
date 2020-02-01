@@ -7,6 +7,7 @@ use App\Constant\Navigation;
 use App\Models\FootPicture;
 use App\Models\HeadPicture;
 use App\Models\HistoryCourse;
+use App\Models\HomeBespockContent;
 use Illuminate\Http\Request;
 
 class HistoryCourseController extends Controller
@@ -25,6 +26,11 @@ class HistoryCourseController extends Controller
             ->get()
             ->pluck('img_url')
             ->toArray();
+
+        $ret['home_bespock'] = HomeBespockContent::query()
+            ->where('navigation_id', Navigation::OLD_COURSE)
+            ->orderByDesc('id')->first();
+
 
         $ret['data'] = HistoryCourse::query()
             ->select(['id', 'title', 'summary', 'img_url'])
