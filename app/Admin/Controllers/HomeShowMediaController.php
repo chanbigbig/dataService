@@ -128,7 +128,7 @@ class HomeShowMediaController extends Controller
             ->uniqueName()
             ->setQiniuDirectory('home_media_image')
             ->rules('image');
-        $form->textarea('problem');
+        $form->textarea('视频简介');
         $form->url('url', '视频地址');
         $form->image('img_url', '视频封面')
             ->uniqueName()

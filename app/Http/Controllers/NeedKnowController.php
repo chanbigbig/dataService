@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\HeadPicture;
 use App\Models\NeedKnow;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,14 @@ class NeedKnowController extends Controller
      */
     public function getItem(Request $request)
     {
-        $data = NeedKnow::query()->orderByDesc('id')->first();
+        $data['head_pic'] = HeadPicture::query()
+            ->where('navigation_id', 5)
+            ->orderByDesc('id')
+            ->limit(5)
+            ->get()
+            ->pluck('img_url')
+            ->toArray();
+        $data['content'] = NeedKnow::query()->orderByDesc('id')->first();
         return $this->successData($data);
     }
 
