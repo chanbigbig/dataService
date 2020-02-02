@@ -101,7 +101,7 @@ class NavigationChildController extends Controller
             $grid->actions(function (Grid\Displayers\Actions $actions)
             {
                 $actions->disableView();
-                $actions->disableEdit();
+//                $actions->disableEdit();
             });
 
             $grid->filter(function ($filter)

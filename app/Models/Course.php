@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use function foo\func;
 use Illuminate\Database\Eloquent\Model;
 
 class Course extends Model
@@ -21,11 +20,15 @@ class Course extends Model
         self::created(function ($model)
         {
             if ($model->is_show_homepage == 1) {
+                $navigationId = \App\Constant\Navigation::COURSE;
+                if ($model->is_history == 1) {
+                    $navigationId = \App\Constant\Navigation::OLD_COURSE;
+                }
                 NavigationChild::firstOrCreate([
                     'child_table' => 'course',
                     'child_id' => $model->id
                 ], [
-                    'navigation_id' => 2,
+                    'navigation_id' => $navigationId,
                     'title' => $model->title,
                 ]);
             }
@@ -34,6 +37,24 @@ class Course extends Model
         //当更新时触发
         self::updated(function ($model)
         {
+
+            if ($model->is_history == 0) {
+                NavigationChild::query()
+                    ->where('child_table', 'course')
+                    ->where('child_id', $model->id)
+                    ->update([
+                        'navigation_id' => \App\Constant\Navigation::COURSE
+                    ]);
+            }
+            if ($model->is_history == 1) {
+                NavigationChild::query()
+                    ->where('child_table', 'course')
+                    ->where('child_id', $model->id)
+                    ->update([
+                        'navigation_id' => \App\Constant\Navigation::OLD_COURSE
+                    ]);
+            }
+
             //关闭
             if ($model->is_show_homepage == 0) {
                 NavigationChild::query()
@@ -43,11 +64,15 @@ class Course extends Model
             }
             //开启
             if ($model->is_show_homepage == 1) {
+                $navigationId = \App\Constant\Navigation::COURSE;
+                if ($model->is_history == 1) {
+                    $navigationId = \App\Constant\Navigation::OLD_COURSE;
+                }
                 NavigationChild::firstOrCreate([
                     'child_table' => 'course',
                     'child_id' => $model->id
                 ], [
-                    'navigation_id' => 2,
+                    'navigation_id' => $navigationId,
                     'title' => $model->title,
                 ]);
             }

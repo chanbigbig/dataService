@@ -31,6 +31,7 @@ class CourseController extends Controller
             ->orderByDesc('id')->first();
 
         $ret['data'] = Course::query()
+            ->where('is_history', 0)
             ->select(['id', 'title', 'summary', 'img_url'])
             ->paginate($request->get('per_page'));
 

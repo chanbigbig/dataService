@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Constant\Navigation;
+use App\Models\Course;
 use App\Models\FootPicture;
 use App\Models\HeadPicture;
 use App\Models\HistoryCourse;
@@ -32,7 +33,8 @@ class HistoryCourseController extends Controller
             ->orderByDesc('id')->first();
 
 
-        $ret['data'] = HistoryCourse::query()
+        $ret['data'] = Course::query()
+            ->where('is_history', 1)
             ->select(['id', 'title', 'summary', 'img_url'])
             ->paginate($request->get('per_page'));
 
@@ -51,7 +53,7 @@ class HistoryCourseController extends Controller
      */
     public function getItem(Request $request)
     {
-        $data = HistoryCourse::query()
+        $data = Course::query()
             ->where('id', $request->get('id'))
             ->first();
         return $this->successData($data);

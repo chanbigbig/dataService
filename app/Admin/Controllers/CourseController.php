@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Admin\Extensions\Form\SwitchField;
 use App\Models\Course;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\HasResourceActions;
@@ -80,6 +81,14 @@ class CourseController extends Controller
         $grid->title('标题');
         $grid->img_url('图片')->image(['width' => 250, 'height' => 250]);
         $grid->summary('摘要')->limit(15);
+
+        $states = [
+            'on'  => ['value' => 1, 'text' => '是', 'color' => 'primary'],
+            'off' => ['value' => 0, 'text' => '否', 'color' => 'default'],
+        ];
+
+        $grid->is_history('是否以往案例')->switch($states);
+
         $states = [
             'on' => ['value' => 1, 'text' => '显示', 'color' => 'primary'],
             'off' => ['value' => 0, 'text' => '不显示', 'color' => 'default'],
@@ -138,11 +147,18 @@ class CourseController extends Controller
     {
         $form = new Form(new Course);
         $states = [
+            'on'  => ['value' => 1, 'text' => '是', 'color' => 'primary'],
+            'off' => ['value' => 0, 'text' => '否', 'color' => 'default'],
+        ];
+        $form->switch('is_history', '是否以往案例')
+            ->states($states)->default(0);
+        $states = [
             'on' => ['value' => 1, 'text' => '显示', 'color' => 'primary'],
             'off' => ['value' => 0, 'text' => '不显示', 'color' => 'default'],
         ];
         $form->switch('is_show_homepage', '是否显示在导航')
             ->states($states)->default(0);
+
 
         $form->text('title', '标题')->required();
 //        ->rules('required', '请您输入标题。');
