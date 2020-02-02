@@ -14,7 +14,7 @@ class HomeController extends Controller
     {
         return $content
             ->header('欢迎登陆')
-            ->description('')
+            ->description('  ')
             ->row(view('admin::home'));
         //            ->row(function (Row $row) {
         //

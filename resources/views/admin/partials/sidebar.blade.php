@@ -5,9 +5,9 @@
 
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel">
-            <div class="pull-left image">
+        <!-- <div class="pull-left image">
                 <img src="http://www.jituwang.com/uploads/allimg/151003/258203-1510030RP894.jpg" class="img-circle" alt="User Image">
-            </div>
+            </div> -->
             <div class="pull-left info">
                 <p>{{ Admin::user()->staff_name }}</p>
                 <!-- Status -->
