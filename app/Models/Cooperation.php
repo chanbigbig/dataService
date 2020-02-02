@@ -28,7 +28,7 @@ class Cooperation extends Model
         {
             if ($model->is_show_homepage == 1) {
                 NavigationChild::firstOrCreate([
-                    'child_table' => self::getTable(),
+                    'child_table' => 'cooperation',
                     'child_id' => $model->id
                 ], [
                     'navigation_id' => self::getNavigationId(),
@@ -43,14 +43,14 @@ class Cooperation extends Model
             //关闭
             if ($model->is_show_homepage == 0) {
                 NavigationChild::query()
-                    ->where('child_table', self::getTable())
+                    ->where('child_table', 'cooperation')
                     ->where('child_id', $model->id)
                     ->delete();
             }
             //开启
             if ($model->is_show_homepage == 1) {
                 NavigationChild::firstOrCreate([
-                    'child_table' => self::getTable(),
+                    'child_table' => 'cooperation',
                     'child_id' => $model->id
                 ], [
                     'navigation_id' => self::getNavigationId(),
@@ -63,7 +63,7 @@ class Cooperation extends Model
         self::deleted(function ($model)
         {
             NavigationChild::query()
-                ->where('child_table', self::getTable())
+                ->where('child_table', 'cooperation')
                 ->where('child_id', $model->id)
                 ->delete();
         });
