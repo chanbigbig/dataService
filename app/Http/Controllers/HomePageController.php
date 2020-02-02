@@ -10,6 +10,7 @@ use App\Models\FootPicture;
 use App\Models\HeadPicture;
 use App\Models\HomeBespockContent;
 use App\Models\HomeHistory;
+use App\Models\HomeIntroduction;
 use App\Models\HomeShowMedia;
 use Illuminate\Http\Request;
 
@@ -28,10 +29,14 @@ class HomePageController extends Controller
             ->pluck('img_url')
             ->toArray();
 
-        $data['home_history'] = HomeHistory::query()->limit(5)->get()->toArray();
-
         $data['home_bespock'] = HomeBespockContent::query()
             ->where('navigation_id', Navigation::HOME_PAGE)
+            ->orderByDesc('id')->first();
+
+        $data['home_history'] = HomeHistory::query()->limit(5)->get()->toArray();
+
+        $data['home_introduction'] = HomeIntroduction::query()
+            ->select(['title', 'content'])
             ->orderByDesc('id')->first();
 
         $data['course_list'] = Course::query()

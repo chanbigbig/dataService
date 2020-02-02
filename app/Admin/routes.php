@@ -43,7 +43,10 @@ Route::group([
     $router->resource('homehistory', 'HomeHistoryController');
     $router->resource('homebespock', 'HomeBespockController');
     $router->resource('homemedia', 'HomeShowMediaController');
+    $router->resource('homeintroduction', 'HomeIntroductionController');
 
     //底部图片
     $router->resource('footpic', 'FootPicController');
+
+
 });

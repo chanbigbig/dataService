@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFootPictureTable extends Migration
+class CreateHomeIntroductionTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateFootPictureTable extends Migration
      */
     public function up()
     {
-        Schema::create('foot_picture', function (Blueprint $table) {
+        Schema::create('home_introduction', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('img_url')->comment('图片地址');
-            $table->string('remark')->comment('备注');
-            $table->unsignedInteger('navigation_id')->default(0);
+            $table->string('title')->comment('标题');
+            $table->text('content')->comment('描述');
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ class CreateFootPictureTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('foot_picture');
+        Schema::dropIfExists('home_introduction');
     }
 }

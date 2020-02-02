@@ -15,8 +15,8 @@ class CreateHomeBespockContentTable extends Migration
     {
         Schema::create('home_bespock_content', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title')->default('')->comment('标题');
-            $table->string('content')->default('')->comment('描述');
+            $table->string('title')->comment('标题');
+            $table->string('content')->comment('描述');
             $table->timestamps();
         });
     }
