@@ -83,7 +83,7 @@ class CourseController extends Controller
         $grid->summary('摘要')->limit(15);
 
         $states = [
-            'on'  => ['value' => 1, 'text' => '是', 'color' => 'primary'],
+            'on' => ['value' => 1, 'text' => '是', 'color' => 'primary'],
             'off' => ['value' => 0, 'text' => '否', 'color' => 'default'],
         ];
 
@@ -111,6 +111,11 @@ class CourseController extends Controller
 
         $grid->filter(function (\Encore\Admin\Grid\Filter $filter)
         {
+            $states = [
+                '1' => '以往案例',
+                '0' => '项目介绍',
+            ];
+            $filter->equal('is_history', '类型')->select($states);
             $filter->like('title', '标题')->placeholder('请输入标题内容.');
             $filter->like('summary', '描述')->placeholder('请输入描述内容.');
         });
@@ -147,7 +152,7 @@ class CourseController extends Controller
     {
         $form = new Form(new Course);
         $states = [
-            'on'  => ['value' => 1, 'text' => '是', 'color' => 'primary'],
+            'on' => ['value' => 1, 'text' => '是', 'color' => 'primary'],
             'off' => ['value' => 0, 'text' => '否', 'color' => 'default'],
         ];
         $form->switch('is_history', '是否以往案例')
@@ -161,7 +166,7 @@ class CourseController extends Controller
 
 
         $form->text('title', '标题')->required();
-//        ->rules('required', '请您输入标题。');
+        //        ->rules('required', '请您输入标题。');
 
         $form->image('img_url', '图片')
             ->uniqueName()
