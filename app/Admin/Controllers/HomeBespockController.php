@@ -24,7 +24,7 @@ class HomeBespockController extends Controller
     public function index(Content $content)
     {
         return $content
-            ->header('首页简介')
+            ->header('模块标题文案')
             ->description('列表')
             ->body($this->grid());
     }
