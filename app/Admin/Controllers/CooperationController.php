@@ -82,11 +82,11 @@ class CooperationController extends Controller
         $grid = new Grid(new Cooperation);
 
         $grid->id('Id');
-        $states = [
-            'on' => ['value' => 1, 'text' => '显示', 'color' => 'primary'],
-            'off' => ['value' => 0, 'text' => '不显示', 'color' => 'default'],
-        ];
-        $grid->is_show_homepage('是否显示在导航')->switch($states);
+//        $states = [
+//            'on' => ['value' => 1, 'text' => '显示', 'color' => 'primary'],
+//            'off' => ['value' => 0, 'text' => '不显示', 'color' => 'default'],
+//        ];
+//        $grid->is_show_homepage('是否显示在导航')->switch($states);
         $grid->title('标题');
         $grid->created_at('创建时间');
         $grid->updated_at('更新时间');
@@ -135,12 +135,13 @@ class CooperationController extends Controller
     {
         $form = new Form(new Cooperation);
 
-        $states = [
-            'on' => ['value' => 1, 'text' => '显示', 'color' => 'primary'],
-            'off' => ['value' => 0, 'text' => '不显示', 'color' => 'default'],
-        ];
-        $form->switch('is_show_homepage', '是否显示在导航')
-            ->states($states)->default(0);
+//        $states = [
+//            'on' => ['value' => 1, 'text' => '显示', 'color' => 'primary'],
+//            'off' => ['value' => 0, 'text' => '不显示', 'color' => 'default'],
+//        ];
+//        $form->switch('is_show_homepage', '是否显示在导航')
+//            ->states($states)->default(0);
+
         $form->text('title', '标题');
         $form->ueditor('content', '内容')->help('编辑后提示"本地保存成功",方可点击提交表单。');
 

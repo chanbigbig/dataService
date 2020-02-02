@@ -82,12 +82,13 @@ class AboutController extends Controller
         $grid = new Grid(new About);
 
         $grid->id('Id');
-        $states = [
-            'on' => ['value' => 1, 'text' => '显示', 'color' => 'primary'],
-            'off' => ['value' => 0, 'text' => '不显示', 'color' => 'default'],
-        ];
-        $grid->is_show_homepage('是否显示在导航')->switch($states);
+//        $states = [
+//            'on' => ['value' => 1, 'text' => '显示', 'color' => 'primary'],
+//            'off' => ['value' => 0, 'text' => '不显示', 'color' => 'default'],
+//        ];
+//        $grid->is_show_homepage('是否显示在导航')->switch($states);
         $grid->title('标题');
+        $grid->img_url('图片')->image(['width' => 250, 'height' => 250]);
         $grid->created_at('创建时间');
         $grid->updated_at('更新时间');
 
@@ -135,12 +136,18 @@ class AboutController extends Controller
     {
         $form = new Form(new About);
 
-        $states = [
-            'on' => ['value' => 1, 'text' => '显示', 'color' => 'primary'],
-            'off' => ['value' => 0, 'text' => '不显示', 'color' => 'default'],
-        ];
-        $form->switch('is_show_homepage', '是否显示在导航')
-            ->states($states)->default(0);
+//        $states = [
+//            'on' => ['value' => 1, 'text' => '显示', 'color' => 'primary'],
+//            'off' => ['value' => 0, 'text' => '不显示', 'color' => 'default'],
+//        ];
+//        $form->switch('is_show_homepage', '是否显示在导航')
+//            ->states($states)->default(0);
+
+        $form->image('img_url', '图片')
+            ->uniqueName()
+            ->setQiniuDirectory('about')
+            ->rules('image');
+
         $form->text('title', '标题');
         $form->ueditor('content', '内容')->help('编辑后提示"本地保存成功",方可点击提交表单。');
 
