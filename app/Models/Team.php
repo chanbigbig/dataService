@@ -47,7 +47,7 @@ class Team extends Model
                     'child_id' => $model->id
                 ], [
                     'navigation_id' => 4,
-                    'title' => $model->title,
+                    'title' => $model->name,
                 ]);
             }
 
