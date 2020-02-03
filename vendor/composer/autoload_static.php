@@ -633,7 +633,6 @@ class ComposerStaticInit9730cb45def82035301408ea499ccd41
         'App\\Admin\\Extensions\\Form\\SwitchField' => __DIR__ . '/../..' . '/app/Admin/Extensions/Form/SwitchField.php',
         'App\\Admin\\Extensions\\Form\\uEditor' => __DIR__ . '/../..' . '/app/Admin/Extensions/Form/uEditor.php',
         'App\\Admin\\Extensions\\Grid\\SwitchDisplay' => __DIR__ . '/../..' . '/app/Admin/Extensions/Grid/SwitchDisplay.php',
-        'App\\Admin\\Extensions\\Nav\\Links' => __DIR__ . '/../..' . '/app/Admin/Extensions/Nav/Links.php',
         'App\\Admin\\Extensions\\Tools\\ShareSelectedCourseware' => __DIR__ . '/../..' . '/app/Admin/Extensions/Tools/ShareSelectedCourseware.php',
         'App\\Admin\\Extensions\\Tools\\ShareSelectedTrick' => __DIR__ . '/../..' . '/app/Admin/Extensions/Tools/ShareSelectedTrick.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',

@@ -87,7 +87,9 @@ class CooperationController extends Controller
 //            'off' => ['value' => 0, 'text' => '不显示', 'color' => 'default'],
 //        ];
 //        $grid->is_show_homepage('是否显示在导航')->switch($states);
-        $grid->title('标题');
+        $grid->name('名称');
+        $grid->img_url('图片')->image(['width' => 250, 'height' => 250]);
+        $grid->summary('描述');
         $grid->created_at('创建时间');
         $grid->updated_at('更新时间');
 
@@ -101,6 +103,11 @@ class CooperationController extends Controller
         $grid->actions(function (Grid\Displayers\Actions $actions)
         {
             $actions->disableView();
+        });
+        $grid->filter(function (\Encore\Admin\Grid\Filter $filter)
+        {
+            $filter->like('name', '名称')->placeholder('请输入名称内容.');
+            $filter->like('summary', '描述')->placeholder('请输入描述内容.');
         });
 
         return $grid;
@@ -141,14 +148,23 @@ class CooperationController extends Controller
 //        ];
 //        $form->switch('is_show_homepage', '是否显示在导航')
 //            ->states($states)->default(0);
+        $form->text('name', '名称')->required();
 
-        $form->text('title', '标题');
-        $form->ueditor('content', '内容')->help('编辑后提示"本地保存成功",方可点击提交表单。');
+        $form->image('img_url', '图片')
+            ->uniqueName()
+            ->setQiniuDirectory('cooperation')
+            ->rules('image');
+
+        $form->textarea('summary', '摘要');
+
+//        $form->text('title', '标题');
+//        $form->ueditor('content', '内容')->help('编辑后提示"本地保存成功",方可点击提交表单。');
 
         $form->tools(function (Form\Tools $tools)
         {
             $tools->disableView();
         });
+
         return $form;
     }
 }

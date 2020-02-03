@@ -30,7 +30,10 @@ class CooperationController extends Controller
             ->where('navigation_id', Navigation::COOPERATION)
             ->orderByDesc('id')->first();
 
-        $data['content'] = Cooperation::query()->orderByDesc('id')->first();
+        $data['data'] = Cooperation::query()
+            ->select(['id', 'name', 'summary', 'img_url'])
+            ->orderByDesc('id')
+            ->paginate($request->get('per_page'));
 
         $data['foot_pic'] = FootPicture::query()
             ->select(['img_url', 'remark'])

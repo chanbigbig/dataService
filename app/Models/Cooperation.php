@@ -9,7 +9,7 @@ class Cooperation extends Model
     protected $connection = 'mysql';
     protected $table = 'cooperation';
     protected $guarded = ['id'];
-//
+
 //    protected $navigationId = 6;
 //
 //    public function getNavigationId()

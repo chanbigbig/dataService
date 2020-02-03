@@ -30,7 +30,6 @@ return array(
     'App\\Admin\\Extensions\\Form\\SwitchField' => $baseDir . '/app/Admin/Extensions/Form/SwitchField.php',
     'App\\Admin\\Extensions\\Form\\uEditor' => $baseDir . '/app/Admin/Extensions/Form/uEditor.php',
     'App\\Admin\\Extensions\\Grid\\SwitchDisplay' => $baseDir . '/app/Admin/Extensions/Grid/SwitchDisplay.php',
-    'App\\Admin\\Extensions\\Nav\\Links' => $baseDir . '/app/Admin/Extensions/Nav/Links.php',
     'App\\Admin\\Extensions\\Tools\\ShareSelectedCourseware' => $baseDir . '/app/Admin/Extensions/Tools/ShareSelectedCourseware.php',
     'App\\Admin\\Extensions\\Tools\\ShareSelectedTrick' => $baseDir . '/app/Admin/Extensions/Tools/ShareSelectedTrick.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
