@@ -80,11 +80,11 @@ class TeamController extends Controller
         $grid->name('名称');
         $grid->img_url('图片')->image(['width' => 250, 'height' => 250]);
         $grid->summary('描述');
-        $states = [
-            'on' => ['value' => 1, 'text' => '显示', 'color' => 'primary'],
-            'off' => ['value' => 0, 'text' => '不显示', 'color' => 'default'],
-        ];
-        $grid->is_show_homepage('是否显示在导航')->switch($states);
+//        $states = [
+//            'on' => ['value' => 1, 'text' => '显示', 'color' => 'primary'],
+//            'off' => ['value' => 0, 'text' => '不显示', 'color' => 'default'],
+//        ];
+//        $grid->is_show_homepage('是否显示在导航')->switch($states);
         $grid->created_at('创建时间');
         $grid->updated_at('更新时间');
 
@@ -136,12 +136,12 @@ class TeamController extends Controller
     protected function form()
     {
         $form = new Form(new Team);
-        $states = [
-            'on' => ['value' => 1, 'text' => '显示', 'color' => 'primary'],
-            'off' => ['value' => 0, 'text' => '不显示', 'color' => 'default'],
-        ];
-        $form->switch('is_show_homepage', '是否显示在导航')
-            ->states($states);
+//        $states = [
+//            'on' => ['value' => 1, 'text' => '显示', 'color' => 'primary'],
+//            'off' => ['value' => 0, 'text' => '不显示', 'color' => 'default'],
+//        ];
+//        $form->switch('is_show_homepage', '是否显示在导航')
+//            ->states($states);
 
         $form->text('name', '名称')->required();
 
