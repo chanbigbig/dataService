@@ -99,18 +99,15 @@ class CourseController extends Controller
 
         $grid->disableExport();
         $grid->disableRowSelector();
-        $grid->tools(function (Grid\Tools $tools)
-        {
+        $grid->tools(function (Grid\Tools $tools) {
             $tools->disableBatchActions();
         });
 
-        $grid->actions(function (Grid\Displayers\Actions $actions)
-        {
+        $grid->actions(function (Grid\Displayers\Actions $actions) {
             $actions->disableView();
         });
 
-        $grid->filter(function (\Encore\Admin\Grid\Filter $filter)
-        {
+        $grid->filter(function (\Encore\Admin\Grid\Filter $filter) {
             $states = [
                 '1' => '以往案例',
                 '0' => '项目介绍',
@@ -165,14 +162,14 @@ class CourseController extends Controller
             ->states($states)->default(0);
 
 
-        $form->text('title', '标题')->required()->;
-        //        ->rules('required', '请您输入标题。');
+        $form->text('title', '标题')->required()
+            ->help("图片高度需要统一。");
 
         $form->image('img_url', '图片')
             ->uniqueName()
             ->setQiniuDirectory('course')
-            ->rules('image')
-            ->help("图片高度需要统一。");
+            ->rules('image');
+
 
         $form->textarea('summary', '摘要');
         //            ->rules('required','请您输入摘要内容。');
@@ -180,8 +177,7 @@ class CourseController extends Controller
         $form->ueditor('content', '内容')->help('编辑后提示"本地保存成功",方可点击提交表单。');
         //            ->rules('required','请您输入内容。');
 
-        $form->tools(function (Form\Tools $tools)
-        {
+        $form->tools(function (Form\Tools $tools) {
             $tools->disableView();
         });
         return $form;
