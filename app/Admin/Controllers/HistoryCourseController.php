@@ -150,7 +150,8 @@ class HistoryCourseController extends Controller
         $form->image('img_url', '图片')
             ->uniqueName()
             ->setQiniuDirectory('historycourse')
-            ->rules('image');
+            ->rules('image')
+            ->help("图片高度需要统一。");
 
         $form->textarea('summary', '摘要');
         //            ->rules('required','请您输入摘要内容。');
